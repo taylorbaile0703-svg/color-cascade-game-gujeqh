@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { colors } from '@/styles/commonStyles';
 import { IconSymbol } from '@/components/IconSymbol';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -17,14 +18,25 @@ export default function HomeScreen() {
       <View style={styles.content}>
         <Text style={styles.appIcon}>🎨</Text>
         
-        <TouchableOpacity style={styles.playButton} onPress={handleStartGame}>
-          <IconSymbol
-            ios_icon_name="play.fill"
-            android_material_icon_name="play-arrow"
-            size={28}
-            color="#ffffff"
-          />
-          <Text style={styles.playButtonText}>Start Playing</Text>
+        <TouchableOpacity 
+          style={styles.playButtonWrapper} 
+          onPress={handleStartGame}
+          activeOpacity={0.8}
+        >
+          <LinearGradient
+            colors={['#9b59b6', '#8e44ad', '#6c3483']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.playButton}
+          >
+            <IconSymbol
+              ios_icon_name="play.fill"
+              android_material_icon_name="play-arrow"
+              size={32}
+              color="#ffffff"
+            />
+            <Text style={styles.playButtonText}>Start Playing</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
     </View>
@@ -46,23 +58,27 @@ const styles = StyleSheet.create({
   },
   appIcon: {
     fontSize: 120,
-    marginBottom: 60,
+    marginBottom: 80,
+  },
+  playButtonWrapper: {
+    borderRadius: 50,
+    boxShadow: '0px 8px 24px rgba(155, 89, 182, 0.5)',
+    elevation: 8,
   },
   playButton: {
-    backgroundColor: colors.primary,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 18,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    boxShadow: '0px 4px 12px rgba(0, 123, 255, 0.3)',
-    elevation: 4,
+    paddingVertical: 22,
+    paddingHorizontal: 50,
+    borderRadius: 50,
+    minWidth: 280,
   },
   playButtonText: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 24,
+    fontWeight: '800',
     color: '#ffffff',
-    marginLeft: 12,
+    marginLeft: 14,
+    letterSpacing: 0.5,
   },
 });

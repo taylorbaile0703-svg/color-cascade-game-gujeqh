@@ -2,34 +2,34 @@
 {
   "expo": {
     "name": "Color Cascade",
-    "slug": "Color Cascade",
+    "slug": "color-cascade",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/color-cascade-icon.png",
+    "icon": "./assets/images/final_quest_240x240.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/color-cascade-icon.png",
+      "image": "./assets/images/final_quest_240x240.png",
       "resizeMode": "contain",
       "backgroundColor": "#7C3AED"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.Natively",
+      "bundleIdentifier": "com.anonymous.colorcascade",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/color-cascade-icon.png",
+        "foregroundImage": "./assets/images/final_quest_240x240.png",
         "backgroundColor": "#7C3AED"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.Natively"
+      "package": "com.anonymous.colorcascade"
     },
     "web": {
-      "favicon": "./assets/images/color-cascade-icon.png",
+      "favicon": "./assets/images/final_quest_240x240.png",
       "bundler": "metro"
     },
     "plugins": [
@@ -37,13 +37,9 @@
       "expo-router",
       "expo-web-browser"
     ],
-    "scheme": "natively",
+    "scheme": "colorcascade",
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "router": {}
     }
-  },
-  "scheme": "Color Cascade"
+  }
 }

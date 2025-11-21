@@ -1,8 +1,8 @@
 
 {
   "expo": {
-    "name": "Color Cascade",
-    "slug": "color-cascade",
+    "name": "color-cascade-game-gujeqh",
+    "slug": "color-cascade-game-gujeqh",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
@@ -27,7 +27,7 @@
         "backgroundColor": "#7C3AED"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.colorcascade.game",
+      "package": "com.lilies.colormemorycascade",
       "versionCode": 1,
       "permissions": [],
       "blockedPermissions": [
@@ -49,11 +49,6 @@
     "scheme": "colorcascade",
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "eas": {
-        "projectId": "your-project-id-here"
-      }
     }
   }
 }

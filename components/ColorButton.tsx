@@ -18,7 +18,6 @@ export const ColorButton: React.FC<ColorButtonProps> = ({
   size = 100,
 }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
-  const opacityAnim = useRef(new Animated.Value(1)).current;
   const glowAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -27,11 +26,6 @@ export const ColorButton: React.FC<ColorButtonProps> = ({
         Animated.parallel([
           Animated.timing(scaleAnim, {
             toValue: 1.15,
-            duration: 200,
-            useNativeDriver: true,
-          }),
-          Animated.timing(opacityAnim, {
-            toValue: 1,
             duration: 200,
             useNativeDriver: true,
           }),
@@ -44,11 +38,6 @@ export const ColorButton: React.FC<ColorButtonProps> = ({
         Animated.parallel([
           Animated.timing(scaleAnim, {
             toValue: 1,
-            duration: 200,
-            useNativeDriver: true,
-          }),
-          Animated.timing(opacityAnim, {
-            toValue: 0.8,
             duration: 200,
             useNativeDriver: true,
           }),
@@ -66,11 +55,6 @@ export const ColorButton: React.FC<ColorButtonProps> = ({
           duration: 200,
           useNativeDriver: true,
         }),
-        Animated.timing(opacityAnim, {
-          toValue: disabled ? 0.4 : 1,
-          duration: 200,
-          useNativeDriver: true,
-        }),
         Animated.timing(glowAnim, {
           toValue: 0,
           duration: 200,
@@ -78,7 +62,7 @@ export const ColorButton: React.FC<ColorButtonProps> = ({
         }),
       ]).start();
     }
-  }, [isActive, disabled, scaleAnim, opacityAnim, glowAnim]);
+  }, [isActive, scaleAnim, glowAnim]);
 
   const handlePress = () => {
     if (!disabled) {
@@ -100,12 +84,12 @@ export const ColorButton: React.FC<ColorButtonProps> = ({
 
   const glowOpacity = glowAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 0.8],
+    outputRange: [0, 0.9],
   });
 
   const glowScale = glowAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [1, 1.3],
+    outputRange: [1, 1.4],
   });
 
   return (
@@ -119,9 +103,9 @@ export const ColorButton: React.FC<ColorButtonProps> = ({
         style={[
           styles.glowOuter,
           {
-            width: size * 1.4,
-            height: size * 1.4,
-            borderRadius: (size * 1.4) / 2,
+            width: size * 1.5,
+            height: size * 1.5,
+            borderRadius: (size * 1.5) / 2,
             backgroundColor: color,
             opacity: glowOpacity,
             transform: [{ scale: glowScale }],
@@ -137,7 +121,6 @@ export const ColorButton: React.FC<ColorButtonProps> = ({
             height: size,
             borderRadius: size / 2,
             transform: [{ scale: scaleAnim }],
-            opacity: opacityAnim,
           },
         ]}
       >
@@ -161,8 +144,8 @@ const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',
     alignItems: 'center',
-    boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.4)',
-    elevation: 8,
+    boxShadow: '0px 10px 30px rgba(0, 0, 0, 0.5)',
+    elevation: 10,
     zIndex: 1,
     overflow: 'hidden',
   },
@@ -172,6 +155,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     height: '40%',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: 'rgba(255, 255, 255, 0.25)',
   },
 });

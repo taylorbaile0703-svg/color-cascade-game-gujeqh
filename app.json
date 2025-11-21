@@ -1,8 +1,8 @@
 
 {
   "expo": {
-    "name": "color-cascade-game-gujeqh",
-    "slug": "color-cascade-game-gujeqh",
+    "name": "Color Cascade",
+    "slug": "color-cascade",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
@@ -14,7 +14,11 @@
       "backgroundColor": "#7C3AED"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/[your-project-id]"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
     },
     "ios": {
       "supportsTablet": true,
@@ -31,7 +35,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.lilies.colormemorycascade",
-      "versionCode": 1,
+      "versionCode": 2,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",

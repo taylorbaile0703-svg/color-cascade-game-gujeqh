@@ -4,17 +4,20 @@
     "development": {
       "developmentClient": true,
       "distribution": "internal",
-      "autoIncrement": true
+      "autoIncrement": true,
+      "channel": "development"
     },
     "preview": {
       "distribution": "internal",
       "autoIncrement": true,
+      "channel": "preview",
       "android": {
         "buildType": "apk"
       }
     },
     "production": {
       "autoIncrement": true,
+      "channel": "production",
       "android": {
         "buildType": "aab"
       }

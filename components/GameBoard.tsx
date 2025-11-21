@@ -1,9 +1,10 @@
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
 import { ColorButton } from './ColorButton';
 import { GameColor } from '@/types/game';
 import { colors } from '@/styles/commonStyles';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface GameBoardProps {
   availableColors: GameColor[];
@@ -16,7 +17,7 @@ interface GameBoardProps {
 }
 
 const { width } = Dimensions.get('window');
-const BUTTON_SIZE = Math.min((width - 80) / 3, 100);
+const BUTTON_SIZE = Math.min((width - 100) / 3, 110);
 
 export const GameBoard: React.FC<GameBoardProps> = ({
   availableColors,
@@ -28,12 +29,45 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   gamePhase,
 }) => {
   const [activeColorIndex, setActiveColorIndex] = useState<number>(-1);
+  const fadeAnim = new Animated.Value(1);
+  const scaleAnim = new Animated.Value(1);
 
   useEffect(() => {
     if (isShowingSequence && sequence.length > 0) {
       showSequenceAnimation();
     }
   }, [isShowingSequence, sequence]);
+
+  useEffect(() => {
+    if (gamePhase === 'correct') {
+      Animated.sequence([
+        Animated.parallel([
+          Animated.timing(scaleAnim, {
+            toValue: 1.1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 0.8,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+        Animated.parallel([
+          Animated.timing(scaleAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]),
+      ]).start();
+    }
+  }, [gamePhase]);
 
   const showSequenceAnimation = async () => {
     const baseDelay = Math.max(800 - (sequence.length * 10), 400);
@@ -51,22 +85,35 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   const getStatusMessage = () => {
     switch (gamePhase) {
       case 'showing':
-        return 'Watch the sequence...';
+        return '👀 Watch the sequence...';
       case 'playing':
-        return 'Your turn! Repeat the sequence';
+        return '🎮 Your turn! Repeat the sequence';
       case 'correct':
         return '🎉 Perfect! Next level...';
       case 'incorrect':
-        return '❌ Oops! Try again';
+        return '💫 Try again!';
       default:
         return '';
     }
   };
 
+  const getStatusColor = () => {
+    switch (gamePhase) {
+      case 'correct':
+        return colors.success;
+      case 'incorrect':
+        return colors.error;
+      default:
+        return colors.text;
+    }
+  };
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, { opacity: fadeAnim, transform: [{ scale: scaleAnim }] }]}>
       <View style={styles.statusContainer}>
-        <Text style={styles.statusText}>{getStatusMessage()}</Text>
+        <Text style={[styles.statusText, { color: getStatusColor() }]}>
+          {getStatusMessage()}
+        </Text>
       </View>
 
       <View style={styles.progressContainer}>
@@ -79,8 +126,9 @@ export const GameBoard: React.FC<GameBoardProps> = ({
                 {
                   backgroundColor:
                     index < playerSequence.length
-                      ? colors.highlight
-                      : colors.textSecondary,
+                      ? colors.primary
+                      : colors.cardLight,
+                  transform: [{ scale: index < playerSequence.length ? 1.2 : 1 }],
                 },
               ]}
             />
@@ -100,7 +148,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
           />
         ))}
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -115,11 +163,18 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     minHeight: 60,
     justifyContent: 'center',
+    backgroundColor: colors.card,
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderRadius: 20,
+    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)',
+    elevation: 4,
+    borderWidth: 1,
+    borderColor: colors.cardLight,
   },
   statusText: {
     fontSize: 20,
-    fontWeight: '600',
-    color: colors.text,
+    fontWeight: '700',
     textAlign: 'center',
   },
   progressContainer: {
@@ -134,16 +189,25 @@ const styles = StyleSheet.create({
     maxWidth: 300,
   },
   progressDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    margin: 4,
+    width: 14,
+    height: 14,
+    borderRadius: 7,
+    margin: 5,
+    boxShadow: '0px 2px 6px rgba(168, 85, 247, 0.4)',
+    elevation: 3,
   },
   colorGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    maxWidth: 400,
+    maxWidth: 450,
+    backgroundColor: colors.card,
+    padding: 20,
+    borderRadius: 30,
+    boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.3)',
+    elevation: 6,
+    borderWidth: 1,
+    borderColor: colors.cardLight,
   },
 });

@@ -7,6 +7,7 @@ import { GameBoard } from '@/components/GameBoard';
 import { GameStats } from '@/components/GameStats';
 import { colors } from '@/styles/commonStyles';
 import { IconSymbol } from '@/components/IconSymbol';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function GameScreen() {
   const router = useRouter();
@@ -17,7 +18,12 @@ export default function GameScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={[colors.background, colors.backgroundLight, colors.background]}
+      style={styles.container}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBack} style={styles.backButton}>
           <IconSymbol
@@ -42,22 +48,50 @@ export default function GameScreen() {
             <Text style={styles.subtitle}>
               Watch the color sequence, then repeat it!
             </Text>
-            <Text style={styles.description}>
-              - Levels get progressively harder{'\n'}
-              - More colors unlock as you advance{'\n'}
-              - Sequences get longer and faster{'\n'}
-              - No losing - keep trying until you get it!
-            </Text>
+            <View style={styles.descriptionCard}>
+              <View style={styles.featureRow}>
+                <Text style={styles.featureIcon}>🎯</Text>
+                <Text style={styles.featureText}>Levels get progressively harder</Text>
+              </View>
+              <View style={styles.featureRow}>
+                <Text style={styles.featureIcon}>🌈</Text>
+                <Text style={styles.featureText}>More colors unlock as you advance</Text>
+              </View>
+              <View style={styles.featureRow}>
+                <Text style={styles.featureIcon}>⚡</Text>
+                <Text style={styles.featureText}>Sequences get longer and faster</Text>
+              </View>
+              <View style={styles.featureRow}>
+                <Text style={styles.featureIcon}>♾️</Text>
+                <Text style={styles.featureText}>No losing - keep trying until you get it!</Text>
+              </View>
+            </View>
             
             {gameState.highScore > 0 && (
-              <View style={styles.highScoreCard}>
-                <Text style={styles.highScoreLabel}>Your Best Score</Text>
+              <LinearGradient
+                colors={[colors.card, colors.cardLight]}
+                style={styles.highScoreCard}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+              >
+                <Text style={styles.highScoreLabel}>🏆 Your Best Score</Text>
                 <Text style={styles.highScoreValue}>{gameState.highScore}</Text>
-              </View>
+              </LinearGradient>
             )}
 
-            <TouchableOpacity style={styles.startButton} onPress={startGame}>
-              <Text style={styles.startButtonText}>Start Game</Text>
+            <TouchableOpacity 
+              style={styles.startButtonWrapper} 
+              onPress={startGame}
+              activeOpacity={0.85}
+            >
+              <LinearGradient
+                colors={['#a855f7', '#9333ea', '#7e22ce']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.startButton}
+              >
+                <Text style={styles.startButtonText}>Start Game</Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
         ) : (
@@ -81,14 +115,13 @@ export default function GameScreen() {
           </>
         )}
       </ScrollView>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
   },
   header: {
     flexDirection: 'row',
@@ -97,12 +130,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 48,
     paddingBottom: 16,
-    backgroundColor: colors.card,
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    elevation: 2,
+    backgroundColor: 'rgba(30, 30, 63, 0.8)',
+    boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.3)',
+    elevation: 4,
   },
   backButton: {
     padding: 8,
+    backgroundColor: colors.card,
+    borderRadius: 12,
   },
   headerTitle: {
     fontSize: 18,
@@ -126,58 +161,89 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   title: {
-    fontSize: 32,
-    fontWeight: '800',
+    fontSize: 36,
+    fontWeight: '900',
     color: colors.text,
     textAlign: 'center',
     marginBottom: 16,
+    textShadowColor: 'rgba(168, 85, 247, 0.5)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 10,
   },
   subtitle: {
     fontSize: 18,
     fontWeight: '600',
     color: colors.textSecondary,
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: 32,
   },
-  description: {
+  descriptionCard: {
+    backgroundColor: colors.card,
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 32,
+    width: '100%',
+    maxWidth: 400,
+    boxShadow: '0px 8px 24px rgba(0, 0, 0, 0.3)',
+    elevation: 6,
+    borderWidth: 1,
+    borderColor: colors.cardLight,
+  },
+  featureRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  featureIcon: {
+    fontSize: 24,
+    marginRight: 12,
+  },
+  featureText: {
     fontSize: 16,
     color: colors.text,
-    textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 32,
+    flex: 1,
+    fontWeight: '500',
   },
   highScoreCard: {
-    backgroundColor: colors.card,
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: 20,
+    padding: 24,
     marginBottom: 32,
     alignItems: 'center',
-    minWidth: 200,
-    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
-    elevation: 3,
+    minWidth: 220,
+    boxShadow: '0px 8px 24px rgba(168, 85, 247, 0.3)',
+    elevation: 6,
+    borderWidth: 1,
+    borderColor: colors.primary,
   },
   highScoreLabel: {
-    fontSize: 14,
+    fontSize: 16,
     color: colors.textSecondary,
-    fontWeight: '600',
-    marginBottom: 8,
+    fontWeight: '700',
+    marginBottom: 12,
   },
   highScoreValue: {
-    fontSize: 36,
+    fontSize: 48,
     color: colors.primary,
-    fontWeight: '800',
+    fontWeight: '900',
+    textShadowColor: 'rgba(168, 85, 247, 0.5)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 10,
+  },
+  startButtonWrapper: {
+    borderRadius: 30,
+    boxShadow: '0px 12px 32px rgba(168, 85, 247, 0.5)',
+    elevation: 10,
   },
   startButton: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: 48,
-    paddingVertical: 16,
+    paddingHorizontal: 56,
+    paddingVertical: 18,
     borderRadius: 30,
-    boxShadow: '0px 4px 12px rgba(0, 123, 255, 0.3)',
-    elevation: 4,
   },
   startButtonText: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 22,
+    fontWeight: '800',
     color: '#ffffff',
+    textAlign: 'center',
+    letterSpacing: 0.5,
   },
 });

@@ -2,24 +2,29 @@
 import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
-  background: '#f0f4f7',
-  text: '#2d3436',
-  textSecondary: '#747d8c',
-  primary: '#007bff',
-  secondary: '#6c757d',
-  accent: '#ffc107',
-  card: '#ffffff',
-  highlight: '#28a745',
+  background: '#0f0f1e',
+  backgroundLight: '#1a1a2e',
+  text: '#ffffff',
+  textSecondary: '#a0a0c0',
+  primary: '#a855f7',
+  primaryDark: '#7e22ce',
+  secondary: '#6366f1',
+  accent: '#fbbf24',
+  card: '#1e1e3f',
+  cardLight: '#2a2a4a',
+  highlight: '#10b981',
+  success: '#22c55e',
+  error: '#ef4444',
   
-  // Game colors for the memory game
-  gameRed: '#e74c3c',
-  gameBlue: '#3498db',
-  gameGreen: '#2ecc71',
-  gameYellow: '#f1c40f',
-  gamePurple: '#9b59b6',
-  gameOrange: '#e67e22',
-  gamePink: '#fd79a8',
-  gameTeal: '#00cec9',
+  // Game colors for the memory game - more vibrant
+  gameRed: '#ff3b5c',
+  gameBlue: '#00d4ff',
+  gameGreen: '#00ff88',
+  gameYellow: '#ffeb3b',
+  gamePurple: '#c77dff',
+  gameOrange: '#ff6b35',
+  gamePink: '#ff6ec7',
+  gameTeal: '#00f5d4',
 };
 
 export const buttonStyles = StyleSheet.create({
@@ -83,14 +88,14 @@ export const commonStyles = StyleSheet.create({
   },
   card: {
     backgroundColor: colors.card,
-    borderColor: colors.textSecondary,
+    borderColor: colors.cardLight,
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
     marginVertical: 8,
     width: '100%',
-    boxShadow: '0px 2px 3px rgba(0, 0, 0, 0.1)',
-    elevation: 2,
+    boxShadow: '0px 4px 12px rgba(168, 85, 247, 0.2)',
+    elevation: 3,
   },
   icon: {
     width: 60,

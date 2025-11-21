@@ -5,14 +5,14 @@ import { Feedback } from '@/utils/haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GAME_COLORS: GameColor[] = [
-  { id: 'red', color: '#e74c3c', name: 'Red' },
-  { id: 'blue', color: '#3498db', name: 'Blue' },
-  { id: 'green', color: '#2ecc71', name: 'Green' },
-  { id: 'yellow', color: '#f1c40f', name: 'Yellow' },
-  { id: 'purple', color: '#9b59b6', name: 'Purple' },
-  { id: 'orange', color: '#e67e22', name: 'Orange' },
-  { id: 'pink', color: '#fd79a8', name: 'Pink' },
-  { id: 'teal', color: '#00cec9', name: 'Teal' },
+  { id: 'red', color: '#ff3b5c', name: 'Red' },
+  { id: 'blue', color: '#00d4ff', name: 'Blue' },
+  { id: 'green', color: '#00ff88', name: 'Green' },
+  { id: 'yellow', color: '#ffeb3b', name: 'Yellow' },
+  { id: 'purple', color: '#c77dff', name: 'Purple' },
+  { id: 'orange', color: '#ff6b35', name: 'Orange' },
+  { id: 'pink', color: '#ff6ec7', name: 'Pink' },
+  { id: 'teal', color: '#00f5d4', name: 'Teal' },
 ];
 
 const HIGH_SCORE_KEY = '@color_cascade_high_score';
@@ -43,7 +43,7 @@ export const useGameLogic = () => {
         setGameState(prev => ({ ...prev, highScore: parseInt(savedHighScore, 10) }));
       }
     } catch (error) {
-      // Error loading high score
+      console.log('Error loading high score:', error);
     }
   };
 
@@ -51,7 +51,7 @@ export const useGameLogic = () => {
     try {
       await AsyncStorage.setItem(HIGH_SCORE_KEY, score.toString());
     } catch (error) {
-      // Error saving high score
+      console.log('Error saving high score:', error);
     }
   };
 

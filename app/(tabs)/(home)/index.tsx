@@ -14,9 +14,17 @@ export default function HomeScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={[colors.background, colors.backgroundLight, colors.background]}
+      style={styles.container}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
       <View style={styles.content}>
-        <Text style={styles.appIcon}>🎨</Text>
+        <View style={styles.iconContainer}>
+          <Text style={styles.appIcon}>🎨</Text>
+          <View style={styles.glowCircle} />
+        </View>
         
         <TouchableOpacity 
           style={styles.playButtonWrapper} 
@@ -39,14 +47,13 @@ export default function HomeScreen() {
           </LinearGradient>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
     paddingTop: 48,
   },
   content: {
@@ -56,29 +63,44 @@ const styles = StyleSheet.create({
     paddingHorizontal: 40,
     paddingBottom: 120,
   },
+  iconContainer: {
+    position: 'relative',
+    marginBottom: 80,
+  },
   appIcon: {
     fontSize: 120,
-    marginBottom: 80,
+    zIndex: 2,
+  },
+  glowCircle: {
+    position: 'absolute',
+    width: 180,
+    height: 180,
+    borderRadius: 90,
+    backgroundColor: colors.primary,
+    opacity: 0.15,
+    top: -30,
+    left: -30,
+    zIndex: 1,
   },
   playButtonWrapper: {
     borderRadius: 30,
-    boxShadow: '0px 10px 30px rgba(168, 85, 247, 0.4)',
-    elevation: 10,
+    boxShadow: '0px 15px 40px rgba(168, 85, 247, 0.5)',
+    elevation: 12,
   },
   playButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 18,
-    paddingHorizontal: 48,
+    paddingVertical: 20,
+    paddingHorizontal: 52,
     borderRadius: 30,
-    minWidth: 260,
+    minWidth: 280,
     gap: 12,
   },
   playButtonText: {
-    fontSize: 22,
-    fontWeight: '700',
+    fontSize: 24,
+    fontWeight: '800',
     color: '#ffffff',
-    letterSpacing: 0.3,
+    letterSpacing: 0.5,
   },
 });

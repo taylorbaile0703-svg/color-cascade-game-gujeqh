@@ -21,10 +21,10 @@ export default function HomeScreen() {
         <TouchableOpacity 
           style={styles.playButtonWrapper} 
           onPress={handleStartGame}
-          activeOpacity={0.8}
+          activeOpacity={0.85}
         >
           <LinearGradient
-            colors={['#9b59b6', '#8e44ad', '#6c3483']}
+            colors={['#a855f7', '#9333ea', '#7e22ce']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.playButton}
@@ -32,7 +32,7 @@ export default function HomeScreen() {
             <IconSymbol
               ios_icon_name="play.fill"
               android_material_icon_name="play-arrow"
-              size={32}
+              size={28}
               color="#ffffff"
             />
             <Text style={styles.playButtonText}>Start Playing</Text>
@@ -61,24 +61,24 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   playButtonWrapper: {
-    borderRadius: 50,
-    boxShadow: '0px 8px 24px rgba(155, 89, 182, 0.5)',
-    elevation: 8,
+    borderRadius: 30,
+    boxShadow: '0px 10px 30px rgba(168, 85, 247, 0.4)',
+    elevation: 10,
   },
   playButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 22,
-    paddingHorizontal: 50,
-    borderRadius: 50,
-    minWidth: 280,
+    paddingVertical: 18,
+    paddingHorizontal: 48,
+    borderRadius: 30,
+    minWidth: 260,
+    gap: 12,
   },
   playButtonText: {
-    fontSize: 24,
-    fontWeight: '800',
+    fontSize: 22,
+    fontWeight: '700',
     color: '#ffffff',
-    marginLeft: 14,
-    letterSpacing: 0.5,
+    letterSpacing: 0.3,
   },
 });

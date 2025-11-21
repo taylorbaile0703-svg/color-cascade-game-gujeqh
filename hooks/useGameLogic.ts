@@ -178,20 +178,22 @@ export const useGameLogic = () => {
         }));
       }
     } else {
-      // Incorrect color - but we don't lose, just try again
+      // Incorrect color - show the sequence again
       Feedback.error();
       
       setGameState(prev => ({
         ...prev,
         playerSequence: [],
+        isPlayerTurn: false,
         gamePhase: 'incorrect',
       }));
 
-      // Reset to playing after a short delay
+      // After a short delay, replay the sequence
       setTimeout(() => {
         setGameState(prev => ({
           ...prev,
-          gamePhase: 'playing',
+          isShowingSequence: true,
+          gamePhase: 'showing',
         }));
       }, 1000);
     }

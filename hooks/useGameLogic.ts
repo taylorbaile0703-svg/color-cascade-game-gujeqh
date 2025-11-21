@@ -43,7 +43,7 @@ export const useGameLogic = () => {
         setGameState(prev => ({ ...prev, highScore: parseInt(savedHighScore, 10) }));
       }
     } catch (error) {
-      console.log('Error loading high score:', error);
+      // Error loading high score
     }
   };
 
@@ -51,7 +51,7 @@ export const useGameLogic = () => {
     try {
       await AsyncStorage.setItem(HIGH_SCORE_KEY, score.toString());
     } catch (error) {
-      console.log('Error saving high score:', error);
+      // Error saving high score
     }
   };
 
@@ -77,7 +77,6 @@ export const useGameLogic = () => {
 
   // Start new game
   const startGame = useCallback(() => {
-    console.log('Starting new game');
     const newSequence = generateSequence(1);
     const colors = getAvailableColors(1);
     
@@ -104,7 +103,6 @@ export const useGameLogic = () => {
   }, [gameState.gamePhase]);
 
   const showSequence = async () => {
-    console.log('Showing sequence:', gameState.sequence);
     const baseDelay = Math.max(800 - (gameState.level * 30), 400);
     
     for (let i = 0; i < gameState.sequence.length; i++) {
@@ -128,7 +126,6 @@ export const useGameLogic = () => {
       return;
     }
 
-    console.log('Player pressed:', colorId);
     Feedback.selection();
 
     const newPlayerSequence = [...gameState.playerSequence, colorId];
@@ -139,7 +136,6 @@ export const useGameLogic = () => {
       // Correct color
       if (newPlayerSequence.length === gameState.sequence.length) {
         // Level complete!
-        console.log('Level complete!');
         Feedback.success();
         
         const newLevel = gameState.level + 1;
@@ -183,7 +179,6 @@ export const useGameLogic = () => {
       }
     } else {
       // Incorrect color - but we don't lose, just try again
-      console.log('Incorrect! Try again.');
       Feedback.error();
       
       setGameState(prev => ({

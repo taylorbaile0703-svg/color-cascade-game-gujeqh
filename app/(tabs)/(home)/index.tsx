@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 40,
-    paddingBottom: 120,
+    paddingBottom: 40,
   },
   iconContainer: {
     position: 'relative',

@@ -1,8 +1,7 @@
-
 {
   "expo": {
     "name": "Color Cascade",
-    "slug": "color-cascade",
+    "slug": "Color Cascade",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
@@ -57,5 +56,6 @@
     "experiments": {
       "typedRoutes": true
     }
-  }
+  },
+  "scheme": "Color Cascade"
 }

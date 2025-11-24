@@ -8,6 +8,7 @@ import { SystemBars } from "react-native-edge-to-edge";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useColorScheme, Alert, View, Text, ActivityIndicator } from "react-native";
 import { useNetworkState } from "expo-network";
+import * as Updates from "expo-updates";
 import {
   DarkTheme,
   DefaultTheme,
@@ -30,12 +31,44 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
+  const [isCheckingForUpdates, setIsCheckingForUpdates] = useState(true);
+
+  // Check for updates on mount
+  useEffect(() => {
+    async function checkForUpdates() {
+      if (__DEV__) {
+        console.log("Skipping update check in development mode");
+        setIsCheckingForUpdates(false);
+        return;
+      }
+
+      try {
+        console.log("Checking for updates...");
+        const update = await Updates.checkForUpdateAsync();
+        
+        if (update.isAvailable) {
+          console.log("Update available, downloading...");
+          await Updates.fetchUpdateAsync();
+          console.log("Update downloaded, reloading app...");
+          await Updates.reloadAsync();
+        } else {
+          console.log("No updates available");
+        }
+      } catch (error) {
+        console.log("Error checking for updates:", error);
+      } finally {
+        setIsCheckingForUpdates(false);
+      }
+    }
+
+    checkForUpdates();
+  }, []);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && !isCheckingForUpdates) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, isCheckingForUpdates]);
 
   React.useEffect(() => {
     if (
@@ -49,12 +82,12 @@ export default function RootLayout() {
     }
   }, [networkState.isConnected, networkState.isInternetReachable]);
 
-  if (!loaded) {
+  if (!loaded || isCheckingForUpdates) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#7C3AED" }}>
         <ActivityIndicator size="large" color="#ffffff" />
         <Text style={{ color: "#ffffff", marginTop: 16, fontSize: 16 }}>
-          Loading...
+          {isCheckingForUpdates ? "Checking for updates..." : "Loading..."}
         </Text>
       </View>
     );

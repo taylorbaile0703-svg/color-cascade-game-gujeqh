@@ -13,15 +13,6 @@
       "resizeMode": "contain",
       "backgroundColor": "#7C3AED"
     },
-    "updates": {
-      "enabled": true,
-      "checkAutomatically": "ON_LOAD",
-      "fallbackToCacheTimeout": 0,
-      "url": "https://u.expo.dev/YOUR_PROJECT_ID"
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.colorcascade.game",
@@ -58,11 +49,6 @@
     "scheme": "colorcascade",
     "experiments": {
       "typedRoutes": true
-    },
-    "extra": {
-      "eas": {
-        "projectId": "YOUR_PROJECT_ID"
-      }
     }
   }
 }

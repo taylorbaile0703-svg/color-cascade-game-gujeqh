@@ -26,7 +26,7 @@ export default function ProfileScreen() {
   };
 
   const openPrivacyPolicy = async () => {
-    const privacyUrl = "https://github.com/yourusername/color-cascade-game/blob/main/PRIVACY.md";
+    const privacyUrl = "https://raw.githubusercontent.com/yourusername/color-cascade-game/main/PRIVACY.md";
     try {
       const canOpen = await Linking.canOpenURL(privacyUrl);
       if (canOpen) {

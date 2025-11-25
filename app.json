@@ -1,8 +1,7 @@
-
 {
   "expo": {
-    "name": "color-cascade-game-gujeqh",
-    "slug": "color-cascade-game-gujeqh",
+    "name": "Color Cascade",
+    "slug": "Color Cascade",
     "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
@@ -61,5 +60,6 @@
     "updates": {
       "url": "https://u.expo.dev/your-project-id-here"
     }
-  }
+  },
+  "scheme": "Color Cascade"
 }

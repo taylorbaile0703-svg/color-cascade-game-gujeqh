@@ -1,7 +1,8 @@
+
 {
   "expo": {
     "name": "Color Cascade",
-    "slug": "Color Cascade",
+    "slug": "color-cascade",
     "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
@@ -53,14 +54,13 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/your-project-id",
+      "url": "https://u.expo.dev/d8e8f9a0-1234-5678-9abc-def012345678",
       "fallbackToCacheTimeout": 0
     },
     "extra": {
       "eas": {
-        "projectId": "your-eas-project-id"
+        "projectId": "d8e8f9a0-1234-5678-9abc-def012345678"
       }
     }
-  },
-  "scheme": "Color Cascade"
+  }
 }

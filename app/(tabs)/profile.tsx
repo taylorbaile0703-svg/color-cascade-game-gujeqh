@@ -11,7 +11,7 @@ export default function ProfileScreen() {
   const theme = useTheme();
 
   const openPrivacyPolicy = async () => {
-    const privacyUrl = "https://raw.githubusercontent.com/yourusername/color-cascade-game/main/PRIVACY.md";
+    const privacyUrl = "https://gist.githubusercontent.com/anonymous/privacy-policy-color-cascade/raw/PRIVACY.md";
     try {
       const canOpen = await Linking.canOpenURL(privacyUrl);
       if (canOpen) {
@@ -90,7 +90,7 @@ export default function ProfileScreen() {
 
         <View style={styles.footer}>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
-            Version 1.0.0
+            Version 1.0.4
           </Text>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
             Made with ❤️ using React Native & Expo

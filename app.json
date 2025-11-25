@@ -1,8 +1,7 @@
-
 {
   "expo": {
     "name": "Color Cascade",
-    "slug": "color-cascade",
+    "slug": "Color Cascade",
     "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
@@ -62,5 +61,6 @@
         "projectId": "your-eas-project-id"
       }
     }
-  }
+  },
+  "scheme": "Color Cascade"
 }

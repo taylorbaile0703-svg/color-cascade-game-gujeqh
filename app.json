@@ -1,7 +1,7 @@
 
 {
   "expo": {
-    "name": "Color Cascade",
+    "name": "color-cascade-game-gujeqh",
     "slug": "color-cascade-game-gujeqh",
     "version": "1.0.4",
     "orientation": "portrait",
@@ -49,6 +49,17 @@
     "scheme": "colorcascade",
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id-here"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/your-project-id-here"
     }
   }
 }

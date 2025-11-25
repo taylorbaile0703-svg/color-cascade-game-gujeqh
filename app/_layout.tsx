@@ -1,120 +1,103 @@
 
-import "react-native-reanimated";
-import React, { useEffect } from "react";
-import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { SystemBars } from "react-native-edge-to-edge";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useColorScheme } from "react-native";
-import {
-  DarkTheme,
-  DefaultTheme,
-  Theme,
-  ThemeProvider,
-} from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
-import { WidgetProvider } from "@/contexts/WidgetContext";
+import { Stack } from 'expo-router';
+import { useEffect, useState } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Updates from 'expo-updates';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { colors } from '@/styles/commonStyles';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export const unstable_settings = {
-  initialRouteName: "(tabs)", // Ensure any route can link back to `/`
-};
-
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-  });
+  const [isReady, setIsReady] = useState(false);
+  const [updateError, setUpdateError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    async function prepare() {
+      try {
+        // Only check for updates in production builds
+        if (!__DEV__ && Updates.isEnabled) {
+          console.log('Checking for updates...');
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Update check timeout')), 5000)
+          );
 
-  if (!loaded) {
-    return null;
+          try {
+            const update = await Promise.race([
+              Updates.checkForUpdateAsync(),
+              timeoutPromise,
+            ]);
+
+            if (update && typeof update === 'object' && 'isAvailable' in update && update.isAvailable) {
+              console.log('Update available, fetching...');
+              await Updates.fetchUpdateAsync();
+              console.log('Update fetched, reloading...');
+              await Updates.reloadAsync();
+            } else {
+              console.log('No updates available');
+            }
+          } catch (updateError) {
+            console.log('Update check failed or timed out:', updateError);
+            // Continue anyway - don't block the app
+          }
+        } else {
+          console.log('Skipping update check (dev mode or updates disabled)');
+        }
+      } catch (error) {
+        console.error('Error during app preparation:', error);
+        setUpdateError('Failed to check for updates');
+      } finally {
+        setIsReady(true);
+        await SplashScreen.hideAsync();
+      }
+    }
+
+    prepare();
+  }, []);
+
+  if (!isReady) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={styles.loadingText}>Loading...</Text>
+      </View>
+    );
   }
 
-  const CustomDefaultTheme: Theme = {
-    ...DefaultTheme,
-    dark: false,
-    colors: {
-      primary: "rgb(0, 122, 255)", // System Blue
-      background: "rgb(242, 242, 247)", // Light mode background
-      card: "rgb(255, 255, 255)", // White cards/surfaces
-      text: "rgb(0, 0, 0)", // Black text for light mode
-      border: "rgb(216, 216, 220)", // Light gray for separators/borders
-      notification: "rgb(255, 59, 48)", // System Red
-    },
-  };
-
-  const CustomDarkTheme: Theme = {
-    ...DarkTheme,
-    colors: {
-      primary: "rgb(10, 132, 255)", // System Blue (Dark Mode)
-      background: "rgb(1, 1, 1)", // True black background for OLED displays
-      card: "rgb(28, 28, 30)", // Dark card/surface color
-      text: "rgb(255, 255, 255)", // White text for dark mode
-      border: "rgb(44, 44, 46)", // Dark gray for separators/borders
-      notification: "rgb(255, 69, 58)", // System Red (Dark Mode)
-    },
-  };
   return (
-    <>
-      <StatusBar style="auto" animated />
-        <ThemeProvider
-          value={colorScheme === "dark" ? CustomDarkTheme : CustomDefaultTheme}
-        >
-          <WidgetProvider>
-            <GestureHandlerRootView>
-            <Stack>
-              {/* Main app with tabs */}
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-
-              {/* Privacy Policy Screen */}
-              <Stack.Screen
-                name="privacy-policy"
-                options={{
-                  presentation: "modal",
-                  title: "Privacy Policy",
-                  headerShown: false,
-                }}
-              />
-
-              {/* Modal Demo Screens */}
-              <Stack.Screen
-                name="modal"
-                options={{
-                  presentation: "modal",
-                  title: "Standard Modal",
-                }}
-              />
-              <Stack.Screen
-                name="formsheet"
-                options={{
-                  presentation: "formSheet",
-                  title: "Form Sheet Modal",
-                  sheetGrabberVisible: true,
-                  sheetAllowedDetents: [0.5, 0.8, 1.0],
-                  sheetCornerRadius: 20,
-                }}
-              />
-              <Stack.Screen
-                name="transparent-modal"
-                options={{
-                  presentation: "transparentModal",
-                  headerShown: false,
-                }}
-              />
-            </Stack>
-            <SystemBars style={"auto"} />
-            </GestureHandlerRootView>
-          </WidgetProvider>
-        </ThemeProvider>
-    </>
+    <Stack screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="formsheet" options={{ presentation: 'formSheet' }} />
+      <Stack.Screen
+        name="transparent-modal"
+        options={{
+          presentation: 'transparentModal',
+          animation: 'fade',
+        }}
+      />
+      <Stack.Screen
+        name="privacy-policy"
+        options={{
+          presentation: 'modal',
+          headerShown: true,
+          title: 'Privacy Policy',
+        }}
+      />
+    </Stack>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background,
+  },
+  loadingText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: colors.text,
+  },
+});

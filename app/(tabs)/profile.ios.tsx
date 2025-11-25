@@ -11,8 +11,9 @@ export default function ProfileScreen() {
   const theme = useTheme();
 
   const openPrivacyPolicy = async () => {
-    // Updated to a valid privacy policy URL
-    const privacyUrl = "https://www.freeprivacypolicy.com/live/color-cascade-memory-game";
+    // Update this URL to your actual GitHub Pages URL after hosting the privacy-policy.html file
+    // Example: https://yourusername.github.io/color-cascade/privacy-policy.html
+    const privacyUrl = "https://yourusername.github.io/color-cascade/privacy-policy.html";
     try {
       const canOpen = await Linking.canOpenURL(privacyUrl);
       if (canOpen) {
@@ -47,7 +48,35 @@ export default function ProfileScreen() {
         </GlassView>
 
         <GlassView style={styles.section} glassEffectStyle="regular">
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Legal</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Features</Text>
+          <View style={styles.featureItem}>
+            <Text style={styles.featureIcon}>🎯</Text>
+            <Text style={[styles.featureText, { color: theme.dark ? '#98989D' : '#666' }]}>
+              Progressive difficulty - levels get harder as you advance
+            </Text>
+          </View>
+          <View style={styles.featureItem}>
+            <Text style={styles.featureIcon}>🌈</Text>
+            <Text style={[styles.featureText, { color: theme.dark ? '#98989D' : '#666' }]}>
+              More colors unlock with each level
+            </Text>
+          </View>
+          <View style={styles.featureItem}>
+            <Text style={styles.featureIcon}>♾️</Text>
+            <Text style={[styles.featureText, { color: theme.dark ? '#98989D' : '#666' }]}>
+              No losing - keep trying until you succeed
+            </Text>
+          </View>
+          <View style={styles.featureItem}>
+            <Text style={styles.featureIcon}>📱</Text>
+            <Text style={[styles.featureText, { color: theme.dark ? '#98989D' : '#666' }]}>
+              Works completely offline - no internet required
+            </Text>
+          </View>
+        </GlassView>
+
+        <GlassView style={styles.section} glassEffectStyle="regular">
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Privacy & Legal</Text>
           
           <TouchableOpacity 
             style={styles.linkButton}
@@ -64,7 +93,7 @@ export default function ProfileScreen() {
               <View style={styles.linkTextContainer}>
                 <Text style={[styles.linkTitle, { color: theme.colors.text }]}>Privacy Policy</Text>
                 <Text style={[styles.linkSubtitle, { color: theme.dark ? '#98989D' : '#666' }]}>
-                  Learn how we protect your data
+                  We don&apos;t collect any personal data
                 </Text>
               </View>
               <IconSymbol 
@@ -75,6 +104,15 @@ export default function ProfileScreen() {
               />
             </View>
           </TouchableOpacity>
+
+          <View style={styles.privacyHighlight}>
+            <Text style={[styles.privacyText, { color: theme.dark ? '#98989D' : '#666' }]}>
+              ✓ No data collection{'\n'}
+              ✓ No tracking or analytics{'\n'}
+              ✓ No ads{'\n'}
+              ✓ Your high score stays on your device
+            </Text>
+          </View>
         </GlassView>
 
         <View style={styles.footer}>
@@ -128,8 +166,24 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 22,
   },
+  featureItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 12,
+  },
+  featureIcon: {
+    fontSize: 20,
+    marginRight: 12,
+    marginTop: 2,
+  },
+  featureText: {
+    fontSize: 15,
+    flex: 1,
+    lineHeight: 22,
+  },
   linkButton: {
     paddingVertical: 4,
+    marginBottom: 16,
   },
   linkContent: {
     flexDirection: 'row',
@@ -147,9 +201,16 @@ const styles = StyleSheet.create({
   linkSubtitle: {
     fontSize: 13,
   },
-  divider: {
-    height: 1,
-    marginVertical: 12,
+  privacyHighlight: {
+    backgroundColor: 'rgba(124, 58, 237, 0.1)',
+    borderRadius: 8,
+    padding: 16,
+    borderLeftWidth: 3,
+    borderLeftColor: '#7C3AED',
+  },
+  privacyText: {
+    fontSize: 14,
+    lineHeight: 24,
   },
   footer: {
     alignItems: 'center',

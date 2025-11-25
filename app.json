@@ -1,8 +1,8 @@
 
 {
   "expo": {
-    "name": "Color Cascade",
-    "slug": "color-cascade",
+    "name": "color-cascade-game-gujeqh",
+    "slug": "color-cascade-game-gujeqh",
     "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
@@ -52,15 +52,6 @@
     },
     "runtimeVersion": {
       "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/d8e8f9a0-1234-5678-9abc-def012345678",
-      "fallbackToCacheTimeout": 0
-    },
-    "extra": {
-      "eas": {
-        "projectId": "d8e8f9a0-1234-5678-9abc-def012345678"
-      }
     }
   }
 }

@@ -1,14 +1,13 @@
 
 import "react-native-reanimated";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { SystemBars } from "react-native-edge-to-edge";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useColorScheme, Alert, View, Text, ActivityIndicator } from "react-native";
+import { useColorScheme, Alert } from "react-native";
 import { useNetworkState } from "expo-network";
-import * as Updates from "expo-updates";
 import {
   DarkTheme,
   DefaultTheme,
@@ -31,55 +30,12 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
-  const [isCheckingForUpdates, setIsCheckingForUpdates] = useState(true);
-
-  // Check for updates on mount - non-blocking
-  useEffect(() => {
-    async function checkForUpdates() {
-      if (__DEV__) {
-        console.log("Skipping update check in development mode");
-        setIsCheckingForUpdates(false);
-        return;
-      }
-
-      try {
-        console.log("Checking for updates...");
-        const update = await Updates.checkForUpdateAsync();
-        
-        if (update.isAvailable) {
-          console.log("Update available, downloading...");
-          await Updates.fetchUpdateAsync();
-          console.log("Update downloaded, reloading app...");
-          await Updates.reloadAsync();
-        } else {
-          console.log("No updates available");
-        }
-      } catch (error) {
-        console.log("Error checking for updates:", error);
-        // Don't block the app if update check fails
-      } finally {
-        setIsCheckingForUpdates(false);
-      }
-    }
-
-    // Add a timeout to prevent indefinite blocking
-    const timeout = setTimeout(() => {
-      console.log("Update check timeout - proceeding with app load");
-      setIsCheckingForUpdates(false);
-    }, 5000); // 5 second timeout
-
-    checkForUpdates().finally(() => {
-      clearTimeout(timeout);
-    });
-
-    return () => clearTimeout(timeout);
-  }, []);
 
   useEffect(() => {
-    if (loaded && !isCheckingForUpdates) {
+    if (loaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, isCheckingForUpdates]);
+  }, [loaded]);
 
   React.useEffect(() => {
     if (
@@ -93,15 +49,8 @@ export default function RootLayout() {
     }
   }, [networkState.isConnected, networkState.isInternetReachable]);
 
-  if (!loaded || isCheckingForUpdates) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#7C3AED" }}>
-        <ActivityIndicator size="large" color="#ffffff" />
-        <Text style={{ color: "#ffffff", marginTop: 16, fontSize: 16 }}>
-          {isCheckingForUpdates ? "Checking for updates..." : "Loading..."}
-        </Text>
-      </View>
-    );
+  if (!loaded) {
+    return null;
   }
 
   const CustomDefaultTheme: Theme = {

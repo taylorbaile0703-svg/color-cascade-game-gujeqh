@@ -10,21 +10,6 @@ import * as Linking from "expo-linking";
 export default function ProfileScreen() {
   const theme = useTheme();
 
-  const openGitHub = async () => {
-    const githubUrl = "https://github.com/yourusername/color-cascade-game";
-    try {
-      const canOpen = await Linking.canOpenURL(githubUrl);
-      if (canOpen) {
-        await Linking.openURL(githubUrl);
-      } else {
-        Alert.alert("Error", "Cannot open GitHub link");
-      }
-    } catch (error) {
-      console.log("Error opening GitHub:", error);
-      Alert.alert("Error", "Failed to open GitHub link");
-    }
-  };
-
   const openPrivacyPolicy = async () => {
     const privacyUrl = "https://raw.githubusercontent.com/yourusername/color-cascade-game/main/PRIVACY.md";
     try {
@@ -73,37 +58,8 @@ export default function ProfileScreen() {
           styles.section,
           Platform.OS !== 'ios' && { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)' }
         ]} glassEffectStyle="regular">
-          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Links</Text>
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>Legal</Text>
           
-          <TouchableOpacity 
-            style={styles.linkButton}
-            onPress={openGitHub}
-            activeOpacity={0.7}
-          >
-            <View style={styles.linkContent}>
-              <IconSymbol 
-                ios_icon_name="chevron.left.forwardslash.chevron.right" 
-                android_material_icon_name="code" 
-                size={24} 
-                color={theme.colors.primary} 
-              />
-              <View style={styles.linkTextContainer}>
-                <Text style={[styles.linkTitle, { color: theme.colors.text }]}>GitHub Repository</Text>
-                <Text style={[styles.linkSubtitle, { color: theme.dark ? '#98989D' : '#666' }]}>
-                  View source code and contribute
-                </Text>
-              </View>
-              <IconSymbol 
-                ios_icon_name="chevron.right" 
-                android_material_icon_name="chevron-right" 
-                size={20} 
-                color={theme.dark ? '#98989D' : '#666'} 
-              />
-            </View>
-          </TouchableOpacity>
-
-          <View style={[styles.divider, { backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }]} />
-
           <TouchableOpacity 
             style={styles.linkButton}
             onPress={openPrivacyPolicy}

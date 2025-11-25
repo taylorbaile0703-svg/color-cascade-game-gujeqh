@@ -1,30 +1,18 @@
 
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSymbol } from "@/components/IconSymbol";
 import { GlassView } from "expo-glass-effect";
 import { useTheme } from "@react-navigation/native";
-import * as Linking from "expo-linking";
+import { useRouter } from "expo-router";
 
 export default function ProfileScreen() {
   const theme = useTheme();
+  const router = useRouter();
 
-  const openPrivacyPolicy = async () => {
-    // Update this URL to your actual GitHub Pages URL after hosting the privacy-policy.html file
-    // Example: https://yourusername.github.io/color-cascade/privacy-policy.html
-    const privacyUrl = "https://yourusername.github.io/color-cascade/privacy-policy.html";
-    try {
-      const canOpen = await Linking.canOpenURL(privacyUrl);
-      if (canOpen) {
-        await Linking.openURL(privacyUrl);
-      } else {
-        Alert.alert("Error", "Cannot open Privacy Policy link");
-      }
-    } catch (error) {
-      console.log("Error opening Privacy Policy:", error);
-      Alert.alert("Error", "Failed to open Privacy Policy link");
-    }
+  const openPrivacyPolicy = () => {
+    router.push('/privacy-policy');
   };
 
   return (

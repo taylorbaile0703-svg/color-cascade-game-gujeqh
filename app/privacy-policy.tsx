@@ -1,6 +1,6 @@
 
 import React from "react";
-import { View, StyleSheet, Platform, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { WebView } from "react-native-webview";
@@ -12,6 +12,7 @@ export default function PrivacyPolicyScreen() {
   const theme = useTheme();
   const router = useRouter();
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState(false);
 
   // Embedded HTML content - no hosting required
   const htmlContent = `<!DOCTYPE html>
@@ -100,6 +101,26 @@ export default function PrivacyPolicyScreen() {
             margin: 20px 0;
             border-left: 4px solid ${theme.colors.primary};
         }
+
+        .github-link {
+            background-color: ${theme.dark ? 'rgba(124, 58, 237, 0.2)' : '#f3f4f6'};
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid ${theme.colors.primary};
+            text-align: center;
+        }
+
+        .github-link a {
+            color: ${theme.colors.primary};
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .github-link a:hover {
+            text-decoration: underline;
+        }
         
         .contact-info {
             background: ${theme.dark ? 'rgba(124, 58, 237, 0.3)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
@@ -138,6 +159,16 @@ export default function PrivacyPolicyScreen() {
         
         <div class="highlight">
             <strong>TL;DR:</strong> Color Cascade is a simple memory game that stores your high score locally on your device. We don't collect, store, or share any personal information. Your data never leaves your device.
+        </div>
+
+        <div class="github-link">
+            <p style="margin-bottom: 10px; color: ${theme.dark ? '#e5e5e5' : '#333'};">📄 <strong>Official Privacy Policy</strong></p>
+            <a href="https://github.com/taylorbaile0703-svg/color-cascade-game-gujeqh/blob/main/PRIVACY_POLICY.md" target="_blank">
+                View on GitHub →
+            </a>
+            <p style="margin-top: 10px; font-size: 0.9em; color: ${theme.dark ? '#999' : '#666'};">
+                For the most up-to-date version of our privacy policy, please visit our GitHub repository.
+            </p>
         </div>
         
         <h2>1. Introduction</h2>
@@ -294,7 +325,7 @@ export default function PrivacyPolicyScreen() {
                 <strong>Email:</strong> <a href="mailto:privacy@colorcascade.app">privacy@colorcascade.app</a>
             </p>
             <p>
-                <strong>GitHub:</strong> <a href="https://github.com/yourusername/color-cascade" target="_blank">github.com/yourusername/color-cascade</a>
+                <strong>GitHub:</strong> <a href="https://github.com/taylorbaile0703-svg/color-cascade-game-gujeqh/blob/main/PRIVACY_POLICY.md" target="_blank">View Privacy Policy on GitHub</a>
             </p>
         </div>
         
@@ -326,21 +357,52 @@ export default function PrivacyPolicyScreen() {
             color={theme.colors.text}
           />
         </TouchableOpacity>
+        <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Privacy Policy</Text>
+        <View style={styles.headerSpacer} />
       </View>
       
       <View style={styles.webViewContainer}>
         {loading && (
           <View style={styles.loadingContainer}>
             <ActivityIndicator size="large" color={theme.colors.primary} />
+            <Text style={[styles.loadingText, { color: theme.colors.text }]}>Loading privacy policy...</Text>
+          </View>
+        )}
+        {error && (
+          <View style={styles.errorContainer}>
+            <Text style={[styles.errorText, { color: theme.colors.text }]}>
+              Failed to load privacy policy. Please try again.
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                setError(false);
+                setLoading(true);
+              }}
+              style={[styles.retryButton, { backgroundColor: theme.colors.primary }]}
+            >
+              <Text style={styles.retryButtonText}>Retry</Text>
+            </TouchableOpacity>
           </View>
         )}
         <WebView
-          source={{ html: htmlContent }}
+          source={{ html: htmlContent, baseUrl: '' }}
           style={[styles.webView, { backgroundColor: theme.colors.background }]}
-          onLoadEnd={() => setLoading(false)}
+          onLoadEnd={() => {
+            console.log('Privacy policy loaded successfully');
+            setLoading(false);
+          }}
+          onError={(syntheticEvent) => {
+            const { nativeEvent } = syntheticEvent;
+            console.error('WebView error:', nativeEvent);
+            setError(true);
+            setLoading(false);
+          }}
           showsVerticalScrollIndicator={true}
           bounces={true}
           scrollEnabled={true}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          startInLoadingState={true}
         />
       </View>
     </SafeAreaView>
@@ -354,6 +416,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -361,6 +424,16 @@ const styles = StyleSheet.create({
   },
   backButton: {
     padding: 8,
+    width: 40,
+  },
+  headerTitle: {
+    fontSize: 17,
+    fontWeight: '600',
+    flex: 1,
+    textAlign: 'center',
+  },
+  headerSpacer: {
+    width: 40,
   },
   webViewContainer: {
     flex: 1,
@@ -377,5 +450,35 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
+    gap: 12,
+  },
+  loadingText: {
+    fontSize: 16,
+  },
+  errorContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1,
+    padding: 20,
+    gap: 20,
+  },
+  errorText: {
+    fontSize: 16,
+    textAlign: 'center',
+  },
+  retryButton: {
+    paddingHorizontal: 24,
+    paddingVertical: 12,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });

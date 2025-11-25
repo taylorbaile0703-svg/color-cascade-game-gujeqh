@@ -33,7 +33,7 @@ export default function RootLayout() {
   });
   const [isCheckingForUpdates, setIsCheckingForUpdates] = useState(true);
 
-  // Check for updates on mount
+  // Check for updates on mount - non-blocking
   useEffect(() => {
     async function checkForUpdates() {
       if (__DEV__) {
@@ -56,12 +56,23 @@ export default function RootLayout() {
         }
       } catch (error) {
         console.log("Error checking for updates:", error);
+        // Don't block the app if update check fails
       } finally {
         setIsCheckingForUpdates(false);
       }
     }
 
-    checkForUpdates();
+    // Add a timeout to prevent indefinite blocking
+    const timeout = setTimeout(() => {
+      console.log("Update check timeout - proceeding with app load");
+      setIsCheckingForUpdates(false);
+    }, 5000); // 5 second timeout
+
+    checkForUpdates().finally(() => {
+      clearTimeout(timeout);
+    });
+
+    return () => clearTimeout(timeout);
   }, []);
 
   useEffect(() => {

@@ -11,7 +11,8 @@ export default function ProfileScreen() {
   const theme = useTheme();
 
   const openPrivacyPolicy = async () => {
-    const privacyUrl = "https://gist.githubusercontent.com/anonymous/privacy-policy-color-cascade/raw/PRIVACY.md";
+    // Updated to a valid privacy policy URL
+    const privacyUrl = "https://www.freeprivacypolicy.com/live/color-cascade-memory-game";
     try {
       const canOpen = await Linking.canOpenURL(privacyUrl);
       if (canOpen) {

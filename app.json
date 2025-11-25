@@ -1,7 +1,7 @@
 
 {
   "expo": {
-    "name": "color-cascade-game-gujeqh",
+    "name": "Color Cascade",
     "slug": "color-cascade-game-gujeqh",
     "version": "1.0.4",
     "orientation": "portrait",
@@ -49,9 +49,6 @@
     "scheme": "colorcascade",
     "experiments": {
       "typedRoutes": true
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
     }
   }
 }

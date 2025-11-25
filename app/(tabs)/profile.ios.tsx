@@ -29,8 +29,7 @@ export default function ProfileScreen() {
   const openGitHubPrivacyPolicy = async () => {
     try {
       // Link to your app's privacy policy on GitHub
-      // Replace 'yourusername' and 'color-cascade' with your actual GitHub username and repo name
-      await WebBrowser.openBrowserAsync('https://github.com/yourusername/color-cascade/blob/main/PRIVACY_POLICY.md');
+      await WebBrowser.openBrowserAsync('https://github.com/taylorbaile0703-svg/color-cascade-game-gujeqh/blob/main/PRIVACY_POLICY.md');
     } catch (error) {
       console.log('Error opening GitHub:', error);
       Alert.alert('Error', 'Could not open GitHub');

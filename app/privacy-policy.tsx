@@ -1,343 +1,44 @@
 
-import React from "react";
-import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Text, ScrollView, TextInput, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
-import { WebView } from "react-native-webview";
 import { useRouter } from "expo-router";
 import { IconSymbol } from "@/components/IconSymbol";
 import { TouchableOpacity } from "react-native";
+import * as WebBrowser from 'expo-web-browser';
 
 export default function PrivacyPolicyScreen() {
   const theme = useTheme();
   const router = useRouter();
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Embedded HTML content - no hosting required
-  const htmlContent = `<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy - Color Cascade Memory Game</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: ${theme.dark ? '#e5e5e5' : '#333'};
-            background: ${theme.dark ? '#1a1a1a' : '#ffffff'};
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        h1 {
-            color: ${theme.colors.primary};
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .app-name {
-            text-align: center;
-            color: ${theme.dark ? '#999' : '#666'};
-            font-size: 1.2em;
-            margin-bottom: 30px;
-        }
-        
-        .last-updated {
-            text-align: center;
-            color: ${theme.dark ? '#888' : '#999'};
-            font-size: 0.9em;
-            margin-bottom: 40px;
-            font-style: italic;
-        }
-        
-        h2 {
-            color: ${theme.colors.primary};
-            font-size: 1.8em;
-            margin-top: 40px;
-            margin-bottom: 15px;
-            border-bottom: 2px solid ${theme.colors.primary};
-            padding-bottom: 10px;
-        }
-        
-        h3 {
-            color: ${theme.dark ? '#a78bfa' : '#9333ea'};
-            font-size: 1.3em;
-            margin-top: 25px;
-            margin-bottom: 10px;
-        }
-        
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-        
-        ul {
-            margin-left: 30px;
-            margin-bottom: 15px;
-        }
-        
-        li {
-            margin-bottom: 8px;
-        }
-        
-        .highlight {
-            background-color: ${theme.dark ? 'rgba(124, 58, 237, 0.2)' : '#f3f4f6'};
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid ${theme.colors.primary};
-        }
+  const openGitHubPrivacyPolicy = async () => {
+    try {
+      await WebBrowser.openBrowserAsync('https://github.com/taylorbaile0703-svg/color-cascade-game-gujeqh/blob/main/PRIVACY_POLICY.md');
+    } catch (error) {
+      console.log('Error opening GitHub:', error);
+    }
+  };
 
-        .github-link {
-            background-color: ${theme.dark ? 'rgba(124, 58, 237, 0.2)' : '#f3f4f6'};
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-            border-left: 4px solid ${theme.colors.primary};
-            text-align: center;
-        }
+  const highlightText = (text: string, query: string) => {
+    if (!query.trim()) {
+      return <Text style={[styles.contentText, { color: theme.colors.text }]}>{text}</Text>;
+    }
 
-        .github-link a {
-            color: ${theme.colors.primary};
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1em;
-        }
-
-        .github-link a:hover {
-            text-decoration: underline;
-        }
-        
-        .contact-info {
-            background: ${theme.dark ? 'rgba(124, 58, 237, 0.3)' : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'};
-            color: ${theme.dark ? '#e5e5e5' : 'white'};
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 40px;
-            text-align: center;
-        }
-        
-        .contact-info a {
-            color: ${theme.dark ? '#a78bfa' : 'white'};
-            text-decoration: underline;
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
-            
-            h2 {
-                font-size: 1.5em;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎨 Privacy Policy</h1>
-        <div class="app-name">Color Cascade Memory Game</div>
-        <div class="last-updated">Last Updated: January 2025</div>
-        
-        <div class="highlight">
-            <strong>TL;DR:</strong> Color Cascade is a simple memory game that stores your high score locally on your device. We don't collect, store, or share any personal information. Your data never leaves your device.
-        </div>
-
-        <div class="github-link">
-            <p style="margin-bottom: 10px; color: ${theme.dark ? '#e5e5e5' : '#333'};">📄 <strong>Official Privacy Policy</strong></p>
-            <a href="https://github.com/taylorbaile0703-svg/color-cascade-game-gujeqh/blob/main/PRIVACY_POLICY.md" target="_blank">
-                View on GitHub →
-            </a>
-            <p style="margin-top: 10px; font-size: 0.9em; color: ${theme.dark ? '#999' : '#666'};">
-                For the most up-to-date version of our privacy policy, please visit our GitHub repository.
-            </p>
-        </div>
-        
-        <h2>1. Introduction</h2>
-        <p>
-            Welcome to Color Cascade Memory Game ("we," "our," or "the App"). We are committed to protecting your privacy. This Privacy Policy explains how we handle information when you use our mobile application.
-        </p>
-        
-        <h2>2. Information We Collect</h2>
-        
-        <h3>2.1 Personal Information</h3>
-        <p>
-            <strong>We do not collect any personal information.</strong> Color Cascade does not require you to create an account, provide your name, email address, phone number, or any other personally identifiable information.
-        </p>
-        
-        <h3>2.2 Game Data</h3>
-        <p>
-            The only data stored by the App is:
-        </p>
-        <ul>
-            <li><strong>High Score:</strong> Your highest game score is stored locally on your device using AsyncStorage (a local storage mechanism).</li>
-            <li><strong>Game Progress:</strong> Current game state while you're playing (level, sequence, etc.) - stored temporarily in device memory.</li>
-        </ul>
-        <p>
-            This data is stored <strong>only on your device</strong> and is never transmitted to our servers or any third parties.
-        </p>
-        
-        <h3>2.3 Technical Information</h3>
-        <p>
-            We do not collect any technical information such as:
-        </p>
-        <ul>
-            <li>Device identifiers</li>
-            <li>IP addresses</li>
-            <li>Location data</li>
-            <li>Usage analytics</li>
-            <li>Crash reports</li>
-        </ul>
-        
-        <h2>3. How We Use Information</h2>
-        <p>
-            Since we don't collect any information, we don't use, process, or analyze any data. The high score stored on your device is used solely to display your personal best score within the game.
-        </p>
-        
-        <h2>4. Data Storage and Security</h2>
-        
-        <h3>4.1 Local Storage</h3>
-        <p>
-            Your high score is stored using AsyncStorage, a secure local storage system provided by React Native. This data:
-        </p>
-        <ul>
-            <li>Remains on your device</li>
-            <li>Is not accessible to other apps</li>
-            <li>Is deleted when you uninstall the app</li>
-            <li>Is not backed up to cloud services</li>
-        </ul>
-        
-        <h3>4.2 No Server Communication</h3>
-        <p>
-            Color Cascade operates entirely offline. The app does not:
-        </p>
-        <ul>
-            <li>Connect to any servers</li>
-            <li>Send data over the internet</li>
-            <li>Require an internet connection to function</li>
-        </ul>
-        
-        <h2>5. Third-Party Services</h2>
-        <p>
-            Color Cascade does not integrate with any third-party services, analytics platforms, advertising networks, or social media platforms. There are no third parties that receive any information from the App.
-        </p>
-        
-        <h2>6. Children's Privacy</h2>
-        <p>
-            Color Cascade is suitable for all ages, including children under 13. Since we do not collect any personal information, we comply with the Children's Online Privacy Protection Act (COPPA) and similar regulations worldwide.
-        </p>
-        
-        <h2>7. Permissions</h2>
-        <p>
-            The App requests minimal permissions:
-        </p>
-        <ul>
-            <li><strong>Haptic Feedback:</strong> To provide vibration feedback when you interact with the game (optional, can be disabled in device settings).</li>
-        </ul>
-        <p>
-            The App explicitly blocks the following permissions:
-        </p>
-        <ul>
-            <li>Camera access</li>
-            <li>Microphone access</li>
-            <li>Location access (fine and coarse)</li>
-        </ul>
-        
-        <h2>8. Data Retention and Deletion</h2>
-        <p>
-            Your high score is stored indefinitely on your device until you:
-        </p>
-        <ul>
-            <li>Uninstall the app (automatically deletes all data)</li>
-            <li>Clear the app's data through your device settings</li>
-        </ul>
-        <p>
-            There is no data stored on our servers to delete, as we don't collect or store any data externally.
-        </p>
-        
-        <h2>9. Your Rights</h2>
-        <p>
-            Since we don't collect any personal data, there is no data to:
-        </p>
-        <ul>
-            <li>Access</li>
-            <li>Correct</li>
-            <li>Delete</li>
-            <li>Export</li>
-            <li>Object to processing</li>
-        </ul>
-        <p>
-            You have complete control over your local game data through your device settings.
-        </p>
-        
-        <h2>10. International Users</h2>
-        <p>
-            Color Cascade can be used worldwide. Since no data is collected or transmitted, there are no international data transfer concerns. The app complies with:
-        </p>
-        <ul>
-            <li>GDPR (European Union)</li>
-            <li>CCPA (California, USA)</li>
-            <li>COPPA (USA)</li>
-            <li>Other international privacy regulations</li>
-        </ul>
-        
-        <h2>11. Updates to This Privacy Policy</h2>
-        <p>
-            We may update this Privacy Policy from time to time. If we make any material changes, we will notify you by:
-        </p>
-        <ul>
-            <li>Updating the "Last Updated" date at the top of this policy</li>
-            <li>Providing an in-app notification (if applicable)</li>
-        </ul>
-        <p>
-            We encourage you to review this Privacy Policy periodically.
-        </p>
-        
-        <h2>12. Open Source</h2>
-        <p>
-            Color Cascade is built with transparency in mind. You can review our code to verify our privacy practices. We believe in open development and welcome community scrutiny.
-        </p>
-        
-        <h2>13. Contact Us</h2>
-        <div class="contact-info">
-            <p>
-                If you have any questions about this Privacy Policy or our privacy practices, please contact us:
-            </p>
-            <p style="margin-top: 20px;">
-                <strong>Email:</strong> <a href="mailto:privacy@colorcascade.app">privacy@colorcascade.app</a>
-            </p>
-            <p>
-                <strong>GitHub:</strong> <a href="https://github.com/taylorbaile0703-svg/color-cascade-game-gujeqh/blob/main/PRIVACY_POLICY.md" target="_blank">View Privacy Policy on GitHub</a>
-            </p>
-        </div>
-        
-        <div class="highlight" style="margin-top: 40px;">
-            <h3 style="margin-top: 0;">Summary</h3>
-            <p style="margin-bottom: 0;">
-                <strong>Color Cascade respects your privacy.</strong> We don't collect, store, or share any personal information. Your high score stays on your device. No ads, no tracking, no data collection. Just a fun memory game.
-            </p>
-        </div>
-    </div>
-</body>
-</html>`;
+    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    return (
+      <Text style={[styles.contentText, { color: theme.colors.text }]}>
+        {parts.map((part, index) => 
+          part.toLowerCase() === query.toLowerCase() ? (
+            <Text key={index} style={styles.highlight}>{part}</Text>
+          ) : (
+            <Text key={index}>{part}</Text>
+          )
+        )}
+      </Text>
+    );
+  };
 
   return (
     <SafeAreaView 
@@ -360,51 +61,428 @@ export default function PrivacyPolicyScreen() {
         <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Privacy Policy</Text>
         <View style={styles.headerSpacer} />
       </View>
-      
-      <View style={styles.webViewContainer}>
-        {loading && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={theme.colors.primary} />
-            <Text style={[styles.loadingText, { color: theme.colors.text }]}>Loading privacy policy...</Text>
-          </View>
+
+      <View style={[styles.searchContainer, { 
+        backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)',
+        borderBottomColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+      }]}>
+        <IconSymbol
+          ios_icon_name="magnifyingglass"
+          android_material_icon_name="search"
+          size={20}
+          color={theme.dark ? '#98989D' : '#666'}
+        />
+        <TextInput
+          style={[styles.searchInput, { color: theme.colors.text }]}
+          placeholder="Search privacy policy..."
+          placeholderTextColor={theme.dark ? '#98989D' : '#666'}
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+        {searchQuery.length > 0 && (
+          <TouchableOpacity onPress={() => setSearchQuery("")} activeOpacity={0.7}>
+            <IconSymbol
+              ios_icon_name="xmark.circle.fill"
+              android_material_icon_name="cancel"
+              size={20}
+              color={theme.dark ? '#98989D' : '#666'}
+            />
+          </TouchableOpacity>
         )}
-        {error && (
-          <View style={styles.errorContainer}>
-            <Text style={[styles.errorText, { color: theme.colors.text }]}>
-              Failed to load privacy policy. Please try again.
+      </View>
+      
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={true}
+      >
+        <View style={styles.titleContainer}>
+          <Text style={[styles.emoji, { color: theme.colors.text }]}>🎨</Text>
+          <Text style={[styles.title, { color: theme.colors.primary }]}>Privacy Policy</Text>
+          <Text style={[styles.appName, { color: theme.dark ? '#98989D' : '#666' }]}>
+            Color Cascade Memory Game
+          </Text>
+          <Text style={[styles.lastUpdated, { color: theme.dark ? '#888' : '#999' }]}>
+            Last Updated: January 2025
+          </Text>
+        </View>
+
+        <View style={[styles.highlightBox, { 
+          backgroundColor: theme.dark ? 'rgba(124, 58, 237, 0.2)' : '#f3f4f6',
+          borderLeftColor: theme.colors.primary
+        }]}>
+          {highlightText(
+            "TL;DR: Color Cascade is a simple memory game that stores your high score locally on your device. We don't collect, store, or share any personal information. Your data never leaves your device.",
+            searchQuery
+          )}
+        </View>
+
+        <TouchableOpacity 
+          style={[styles.githubLinkBox, { 
+            backgroundColor: theme.dark ? 'rgba(124, 58, 237, 0.2)' : '#f3f4f6',
+            borderLeftColor: theme.colors.primary
+          }]}
+          onPress={openGitHubPrivacyPolicy}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.githubTitle, { color: theme.colors.text }]}>
+            📄 <Text style={styles.bold}>Official Privacy Policy</Text>
+          </Text>
+          <View style={styles.githubLinkContent}>
+            <Text style={[styles.githubLink, { color: theme.colors.primary }]}>
+              View on GitHub →
             </Text>
-            <TouchableOpacity
-              onPress={() => {
-                setError(false);
-                setLoading(true);
-              }}
-              style={[styles.retryButton, { backgroundColor: theme.colors.primary }]}
-            >
-              <Text style={styles.retryButtonText}>Retry</Text>
+          </View>
+          <Text style={[styles.githubSubtext, { color: theme.dark ? '#999' : '#666' }]}>
+            For the most up-to-date version of our privacy policy, please visit our GitHub repository.
+          </Text>
+        </TouchableOpacity>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            1. Introduction
+          </Text>
+          {highlightText(
+            "Welcome to Color Cascade Memory Game (\"we,\" \"our,\" or \"the App\"). We are committed to protecting your privacy. This Privacy Policy explains how we handle information when you use our mobile application.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            2. Information We Collect
+          </Text>
+          
+          <Text style={[styles.subsectionTitle, { color: theme.dark ? '#a78bfa' : '#9333ea' }]}>
+            2.1 Personal Information
+          </Text>
+          {highlightText(
+            "We do not collect any personal information. Color Cascade does not require you to create an account, provide your name, email address, phone number, or any other personally identifiable information.",
+            searchQuery
+          )}
+
+          <Text style={[styles.subsectionTitle, { color: theme.dark ? '#a78bfa' : '#9333ea' }]}>
+            2.2 Game Data
+          </Text>
+          {highlightText(
+            "The only data stored by the App is:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText(
+              "High Score: Your highest game score is stored locally on your device using AsyncStorage (a local storage mechanism).",
+              searchQuery
+            )}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText(
+              "Game Progress: Current game state while you're playing (level, sequence, etc.) - stored temporarily in device memory.",
+              searchQuery
+            )}
+          </View>
+          {highlightText(
+            "This data is stored only on your device and is never transmitted to our servers or any third parties.",
+            searchQuery
+          )}
+
+          <Text style={[styles.subsectionTitle, { color: theme.dark ? '#a78bfa' : '#9333ea' }]}>
+            2.3 Technical Information
+          </Text>
+          {highlightText(
+            "We do not collect any technical information such as:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Device identifiers", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("IP addresses", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Location data", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Usage analytics", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Crash reports", searchQuery)}
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            3. How We Use Information
+          </Text>
+          {highlightText(
+            "Since we don't collect any information, we don't use, process, or analyze any data. The high score stored on your device is used solely to display your personal best score within the game.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            4. Data Storage and Security
+          </Text>
+          
+          <Text style={[styles.subsectionTitle, { color: theme.dark ? '#a78bfa' : '#9333ea' }]}>
+            4.1 Local Storage
+          </Text>
+          {highlightText(
+            "Your high score is stored using AsyncStorage, a secure local storage system provided by React Native. This data:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Remains on your device", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Is not accessible to other apps", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Is deleted when you uninstall the app", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Is not backed up to cloud services", searchQuery)}
+          </View>
+
+          <Text style={[styles.subsectionTitle, { color: theme.dark ? '#a78bfa' : '#9333ea' }]}>
+            4.2 No Server Communication
+          </Text>
+          {highlightText(
+            "Color Cascade operates entirely offline. The app does not:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Connect to any servers", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Send data over the internet", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Require an internet connection to function", searchQuery)}
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            5. Third-Party Services
+          </Text>
+          {highlightText(
+            "Color Cascade does not integrate with any third-party services, analytics platforms, advertising networks, or social media platforms. There are no third parties that receive any information from the App.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            6. Children&apos;s Privacy
+          </Text>
+          {highlightText(
+            "Color Cascade is suitable for all ages, including children under 13. Since we do not collect any personal information, we comply with the Children's Online Privacy Protection Act (COPPA) and similar regulations worldwide.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            7. Permissions
+          </Text>
+          {highlightText(
+            "The App requests minimal permissions:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText(
+              "Haptic Feedback: To provide vibration feedback when you interact with the game (optional, can be disabled in device settings).",
+              searchQuery
+            )}
+          </View>
+          {highlightText(
+            "The App explicitly blocks the following permissions:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Camera access", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Microphone access", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Location access (fine and coarse)", searchQuery)}
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            8. Data Retention and Deletion
+          </Text>
+          {highlightText(
+            "Your high score is stored indefinitely on your device until you:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Uninstall the app (automatically deletes all data)", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Clear the app's data through your device settings", searchQuery)}
+          </View>
+          {highlightText(
+            "There is no data stored on our servers to delete, as we don't collect or store any data externally.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            9. Your Rights
+          </Text>
+          {highlightText(
+            "Since we don't collect any personal data, there is no data to:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Access", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Correct", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Delete", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Export", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Object to processing", searchQuery)}
+          </View>
+          {highlightText(
+            "You have complete control over your local game data through your device settings.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            10. International Users
+          </Text>
+          {highlightText(
+            "Color Cascade can be used worldwide. Since no data is collected or transmitted, there are no international data transfer concerns. The app complies with:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("GDPR (European Union)", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("CCPA (California, USA)", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("COPPA (USA)", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Other international privacy regulations", searchQuery)}
+          </View>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            11. Updates to This Privacy Policy
+          </Text>
+          {highlightText(
+            "We may update this Privacy Policy from time to time. If we make any material changes, we will notify you by:",
+            searchQuery
+          )}
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Updating the \"Last Updated\" date at the top of this policy", searchQuery)}
+          </View>
+          <View style={styles.bulletPoint}>
+            <Text style={[styles.bullet, { color: theme.colors.text }]}>•</Text>
+            {highlightText("Providing an in-app notification (if applicable)", searchQuery)}
+          </View>
+          {highlightText(
+            "We encourage you to review this Privacy Policy periodically.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            12. Open Source
+          </Text>
+          {highlightText(
+            "Color Cascade is built with transparency in mind. You can review our code to verify our privacy practices. We believe in open development and welcome community scrutiny.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.section}>
+          <Text style={[styles.sectionTitle, { color: theme.colors.primary }]}>
+            13. Contact Us
+          </Text>
+          <View style={[styles.contactBox, { 
+            backgroundColor: theme.dark ? 'rgba(124, 58, 237, 0.3)' : 'rgba(102, 126, 234, 0.1)',
+          }]}>
+            {highlightText(
+              "If you have any questions about this Privacy Policy or our privacy practices, please contact us:",
+              searchQuery
+            )}
+            <Text style={[styles.contactDetail, { color: theme.colors.text }]}>
+              Email: privacy@colorcascade.app
+            </Text>
+            <TouchableOpacity onPress={openGitHubPrivacyPolicy} activeOpacity={0.7}>
+              <Text style={[styles.contactLink, { color: theme.colors.primary }]}>
+                GitHub: View Privacy Policy on GitHub →
+              </Text>
             </TouchableOpacity>
           </View>
-        )}
-        <WebView
-          source={{ html: htmlContent, baseUrl: '' }}
-          style={[styles.webView, { backgroundColor: theme.colors.background }]}
-          onLoadEnd={() => {
-            console.log('Privacy policy loaded successfully');
-            setLoading(false);
-          }}
-          onError={(syntheticEvent) => {
-            const { nativeEvent } = syntheticEvent;
-            console.error('WebView error:', nativeEvent);
-            setError(true);
-            setLoading(false);
-          }}
-          showsVerticalScrollIndicator={true}
-          bounces={true}
-          scrollEnabled={true}
-          javaScriptEnabled={true}
-          domStorageEnabled={true}
-          startInLoadingState={true}
-        />
-      </View>
+        </View>
+
+        <View style={[styles.highlightBox, { 
+          backgroundColor: theme.dark ? 'rgba(124, 58, 237, 0.2)' : '#f3f4f6',
+          borderLeftColor: theme.colors.primary,
+          marginTop: 20
+        }]}>
+          <Text style={[styles.subsectionTitle, { color: theme.dark ? '#a78bfa' : '#9333ea', marginTop: 0 }]}>
+            Summary
+          </Text>
+          {highlightText(
+            "Color Cascade respects your privacy. We don't collect, store, or share any personal information. Your high score stays on your device. No ads, no tracking, no data collection. Just a fun memory game.",
+            searchQuery
+          )}
+        </View>
+
+        <View style={styles.bottomPadding} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -435,50 +513,130 @@ const styles = StyleSheet.create({
   headerSpacer: {
     width: 40,
   },
-  webViewContainer: {
-    flex: 1,
-  },
-  webView: {
-    flex: 1,
-  },
-  loadingContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
+  searchContainer: {
+    flexDirection: 'row',
     alignItems: 'center',
-    zIndex: 1,
-    gap: 12,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 8,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  loadingText: {
+  searchInput: {
+    flex: 1,
     fontSize: 16,
+    paddingVertical: Platform.OS === 'ios' ? 8 : 4,
   },
-  errorContainer: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
+  scrollView: {
+    flex: 1,
+  },
+  contentContainer: {
     padding: 20,
-    gap: 20,
   },
-  errorText: {
+  titleContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  emoji: {
+    fontSize: 48,
+    marginBottom: 8,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  appName: {
+    fontSize: 18,
+    marginBottom: 8,
+  },
+  lastUpdated: {
+    fontSize: 14,
+    fontStyle: 'italic',
+  },
+  highlightBox: {
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 20,
+    borderLeftWidth: 4,
+  },
+  githubLinkBox: {
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 20,
+    borderLeftWidth: 4,
+  },
+  githubTitle: {
     fontSize: 16,
+    marginBottom: 8,
     textAlign: 'center',
   },
-  retryButton: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    borderRadius: 8,
+  githubLinkContent: {
+    alignItems: 'center',
+    marginBottom: 8,
   },
-  retryButtonText: {
-    color: 'white',
-    fontSize: 16,
+  githubLink: {
+    fontSize: 18,
     fontWeight: '600',
+  },
+  githubSubtext: {
+    fontSize: 13,
+    textAlign: 'center',
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 12,
+    marginTop: 8,
+  },
+  subsectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  contentText: {
+    fontSize: 15,
+    lineHeight: 24,
+    marginBottom: 12,
+  },
+  bulletPoint: {
+    flexDirection: 'row',
+    marginBottom: 8,
+    paddingLeft: 8,
+  },
+  bullet: {
+    fontSize: 15,
+    marginRight: 8,
+    marginTop: 2,
+  },
+  contactBox: {
+    padding: 20,
+    borderRadius: 12,
+    marginTop: 12,
+  },
+  contactDetail: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginTop: 16,
+  },
+  contactLink: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginTop: 8,
+    textDecorationLine: 'underline',
+  },
+  highlight: {
+    backgroundColor: '#FFD700',
+    color: '#000',
+    fontWeight: '600',
+  },
+  bold: {
+    fontWeight: '600',
+  },
+  bottomPadding: {
+    height: 40,
   },
 });

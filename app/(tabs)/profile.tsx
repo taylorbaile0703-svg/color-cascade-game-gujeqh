@@ -26,9 +26,11 @@ export default function ProfileScreen() {
     }
   };
 
-  const openGitHub = async () => {
+  const openGitHubPrivacyPolicy = async () => {
     try {
-      await WebBrowser.openBrowserAsync('https://github.com');
+      // Link to your app's privacy policy on GitHub
+      // Replace 'yourusername' and 'color-cascade' with your actual GitHub username and repo name
+      await WebBrowser.openBrowserAsync('https://github.com/yourusername/color-cascade/blob/main/PRIVACY_POLICY.md');
     } catch (error) {
       console.log('Error opening GitHub:', error);
       Alert.alert('Error', 'Could not open GitHub');
@@ -130,6 +132,33 @@ export default function ProfileScreen() {
 
           <TouchableOpacity 
             style={styles.linkButton}
+            onPress={openGitHubPrivacyPolicy}
+            activeOpacity={0.7}
+          >
+            <View style={styles.linkContent}>
+              <IconSymbol 
+                ios_icon_name="chevron.left.forwardslash.chevron.right" 
+                android_material_icon_name="code" 
+                size={24} 
+                color={theme.colors.primary} 
+              />
+              <View style={styles.linkTextContainer}>
+                <Text style={[styles.linkTitle, { color: theme.colors.text }]}>Privacy Policy on GitHub</Text>
+                <Text style={[styles.linkSubtitle, { color: theme.dark ? '#98989D' : '#666' }]}>
+                  View the official privacy policy
+                </Text>
+              </View>
+              <IconSymbol 
+                ios_icon_name="arrow.up.right" 
+                android_material_icon_name="open-in-new" 
+                size={20} 
+                color={theme.dark ? '#98989D' : '#666'} 
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.linkButton}
             onPress={openExternalLink}
             activeOpacity={0.7}
           >
@@ -144,33 +173,6 @@ export default function ProfileScreen() {
                 <Text style={[styles.linkTitle, { color: theme.colors.text }]}>Visit Our Website</Text>
                 <Text style={[styles.linkSubtitle, { color: theme.dark ? '#98989D' : '#666' }]}>
                   Learn more about our apps
-                </Text>
-              </View>
-              <IconSymbol 
-                ios_icon_name="arrow.up.right" 
-                android_material_icon_name="open-in-new" 
-                size={20} 
-                color={theme.dark ? '#98989D' : '#666'} 
-              />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.linkButton}
-            onPress={openGitHub}
-            activeOpacity={0.7}
-          >
-            <View style={styles.linkContent}>
-              <IconSymbol 
-                ios_icon_name="chevron.left.forwardslash.chevron.right" 
-                android_material_icon_name="code" 
-                size={24} 
-                color={theme.colors.primary} 
-              />
-              <View style={styles.linkTextContainer}>
-                <Text style={[styles.linkTitle, { color: theme.colors.text }]}>View on GitHub</Text>
-                <Text style={[styles.linkSubtitle, { color: theme.dark ? '#98989D' : '#666' }]}>
-                  Check out the source code
                 </Text>
               </View>
               <IconSymbol 

@@ -26,6 +26,17 @@ export default function ProfileScreen() {
     }
   };
 
+  const openGitHubPrivacyPolicy = async () => {
+    try {
+      // Link to your app's privacy policy on GitHub
+      // Replace 'yourusername' and 'color-cascade' with your actual GitHub username and repo name
+      await WebBrowser.openBrowserAsync('https://github.com/yourusername/color-cascade/blob/main/PRIVACY_POLICY.md');
+    } catch (error) {
+      console.log('Error opening GitHub:', error);
+      Alert.alert('Error', 'Could not open GitHub');
+    }
+  };
+
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.colors.background }]} edges={['top']}>
       <ScrollView
@@ -98,6 +109,33 @@ export default function ProfileScreen() {
               <IconSymbol 
                 ios_icon_name="chevron.right" 
                 android_material_icon_name="chevron-right" 
+                size={20} 
+                color={theme.dark ? '#98989D' : '#666'} 
+              />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.linkButton}
+            onPress={openGitHubPrivacyPolicy}
+            activeOpacity={0.7}
+          >
+            <View style={styles.linkContent}>
+              <IconSymbol 
+                ios_icon_name="chevron.left.forwardslash.chevron.right" 
+                android_material_icon_name="code" 
+                size={24} 
+                color={theme.colors.primary} 
+              />
+              <View style={styles.linkTextContainer}>
+                <Text style={[styles.linkTitle, { color: theme.colors.text }]}>Privacy Policy on GitHub</Text>
+                <Text style={[styles.linkSubtitle, { color: theme.dark ? '#98989D' : '#666' }]}>
+                  View the official privacy policy
+                </Text>
+              </View>
+              <IconSymbol 
+                ios_icon_name="arrow.up.right" 
+                android_material_icon_name="open-in-new" 
                 size={20} 
                 color={theme.dark ? '#98989D' : '#666'} 
               />

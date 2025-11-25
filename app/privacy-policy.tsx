@@ -1,6 +1,6 @@
 
-import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, ScrollView, TextInput, Platform, ActivityIndicator } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, Text, ScrollView, TextInput, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
@@ -8,45 +8,8 @@ import { IconSymbol } from "@/components/IconSymbol";
 import { TouchableOpacity } from "react-native";
 import * as WebBrowser from 'expo-web-browser';
 
-export default function PrivacyPolicyScreen() {
-  const theme = useTheme();
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [privacyContent, setPrivacyContent] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    fetchPrivacyPolicy();
-  }, []);
-
-  const fetchPrivacyPolicy = async () => {
-    try {
-      setIsLoading(true);
-      setError("");
-      
-      // Fetch from GitHub raw content URL
-      const response = await fetch('https://raw.githubusercontent.com/taylorbaile0703-svg/color-cascade-game-gujeqh/main/PRIVACY_POLICY.md');
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch: ${response.status}`);
-      }
-      
-      const text = await response.text();
-      setPrivacyContent(text);
-      console.log('Privacy policy fetched successfully');
-    } catch (err) {
-      console.error('Error fetching privacy policy:', err);
-      setError('Failed to load privacy policy. Please check your internet connection.');
-      // Fallback to local content
-      setPrivacyContent(getFallbackContent());
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getFallbackContent = () => {
-    return `# 🎨 Privacy Policy
+// Privacy policy content bundled with the app
+const PRIVACY_POLICY_CONTENT = `# 🎨 Privacy Policy
 
 Color Cascade Memory Game
 
@@ -180,7 +143,11 @@ GitHub: View Privacy Policy on GitHub
 ### Summary
 
 Color Cascade respects your privacy. We don't collect, store, or share any personal information. Your high score stays on your device. No ads, no tracking, no data collection. Just a fun memory game.`;
-  };
+
+export default function PrivacyPolicyScreen() {
+  const theme = useTheme();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const openGitHubPrivacyPolicy = async () => {
     try {
@@ -351,7 +318,7 @@ Color Cascade respects your privacy. We don't collect, store, or share any perso
     return filteredLines.length > 0 ? filteredLines.join('\n') : content;
   };
 
-  const displayContent = searchQuery.trim() ? filterContent(privacyContent, searchQuery) : privacyContent;
+  const displayContent = searchQuery.trim() ? filterContent(PRIVACY_POLICY_CONTENT, searchQuery) : PRIVACY_POLICY_CONTENT;
 
   return (
     <SafeAreaView 
@@ -372,18 +339,7 @@ Color Cascade respects your privacy. We don't collect, store, or share any perso
           />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Privacy Policy</Text>
-        <TouchableOpacity
-          onPress={fetchPrivacyPolicy}
-          style={styles.refreshButton}
-          activeOpacity={0.7}
-        >
-          <IconSymbol
-            ios_icon_name="arrow.clockwise"
-            android_material_icon_name="refresh"
-            size={24}
-            color={theme.colors.text}
-          />
-        </TouchableOpacity>
+        <View style={styles.backButton} />
       </View>
 
       <View style={[styles.searchContainer, { 
@@ -417,82 +373,47 @@ Color Cascade respects your privacy. We don't collect, store, or share any perso
         )}
       </View>
 
-      {error ? (
-        <View style={styles.errorContainer}>
-          <IconSymbol
-            ios_icon_name="exclamationmark.triangle.fill"
-            android_material_icon_name="warning"
-            size={48}
-            color={theme.dark ? '#fbbf24' : '#f59e0b'}
-          />
-          <Text style={[styles.errorText, { color: theme.colors.text }]}>{error}</Text>
-          <TouchableOpacity
-            style={[styles.retryButton, { backgroundColor: theme.colors.primary }]}
-            onPress={fetchPrivacyPolicy}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.retryButtonText}>Retry</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.githubButton, { borderColor: theme.colors.primary }]}
-            onPress={openGitHubPrivacyPolicy}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.githubButtonText, { color: theme.colors.primary }]}>
-              View on GitHub
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ) : isLoading ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={theme.colors.primary} />
-          <Text style={[styles.loadingText, { color: theme.colors.text }]}>
-            Loading privacy policy from GitHub...
-          </Text>
-        </View>
-      ) : (
-        <ScrollView 
-          style={styles.scrollView}
-          contentContainerStyle={styles.contentContainer}
-          showsVerticalScrollIndicator={true}
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={true}
+      >
+        <TouchableOpacity 
+          style={[styles.githubLinkBox, { 
+            backgroundColor: theme.dark ? 'rgba(124, 58, 237, 0.2)' : '#f3f4f6',
+            borderLeftColor: theme.colors.primary
+          }]}
+          onPress={openGitHubPrivacyPolicy}
+          activeOpacity={0.7}
         >
-          <TouchableOpacity 
-            style={[styles.githubLinkBox, { 
-              backgroundColor: theme.dark ? 'rgba(124, 58, 237, 0.2)' : '#f3f4f6',
-              borderLeftColor: theme.colors.primary
-            }]}
-            onPress={openGitHubPrivacyPolicy}
-            activeOpacity={0.7}
-          >
-            <Text style={[styles.githubTitle, { color: theme.colors.text }]}>
-              📄 <Text style={styles.bold}>Loaded from GitHub</Text>
+          <Text style={[styles.githubTitle, { color: theme.colors.text }]}>
+            📄 <Text style={styles.bold}>Official Privacy Policy</Text>
+          </Text>
+          <View style={styles.githubLinkContent}>
+            <Text style={[styles.githubLink, { color: theme.colors.primary }]}>
+              View on GitHub →
             </Text>
-            <View style={styles.githubLinkContent}>
-              <Text style={[styles.githubLink, { color: theme.colors.primary }]}>
-                View on GitHub →
-              </Text>
-            </View>
-            <Text style={[styles.githubSubtext, { color: theme.dark ? '#999' : '#666' }]}>
-              This content is fetched directly from our GitHub repository.
+          </View>
+          <Text style={[styles.githubSubtext, { color: theme.dark ? '#999' : '#666' }]}>
+            Tap to view the official version on our GitHub repository.
+          </Text>
+        </TouchableOpacity>
+
+        {searchQuery.trim() && (
+          <View style={[styles.searchResultsBox, { 
+            backgroundColor: theme.dark ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)',
+            borderLeftColor: '#22c55e'
+          }]}>
+            <Text style={[styles.searchResultsText, { color: theme.colors.text }]}>
+              🔍 Showing results for: <Text style={styles.bold}>&quot;{searchQuery}&quot;</Text>
             </Text>
-          </TouchableOpacity>
+          </View>
+        )}
 
-          {searchQuery.trim() && (
-            <View style={[styles.searchResultsBox, { 
-              backgroundColor: theme.dark ? 'rgba(34, 197, 94, 0.2)' : 'rgba(34, 197, 94, 0.1)',
-              borderLeftColor: '#22c55e'
-            }]}>
-              <Text style={[styles.searchResultsText, { color: theme.colors.text }]}>
-                🔍 Showing results for: <Text style={styles.bold}>&quot;{searchQuery}&quot;</Text>
-              </Text>
-            </View>
-          )}
+        {parseMarkdown(displayContent)}
 
-          {parseMarkdown(displayContent)}
-
-          <View style={styles.bottomPadding} />
-        </ScrollView>
-      )}
+        <View style={styles.bottomPadding} />
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -511,10 +432,6 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(0,0,0,0.1)',
   },
   backButton: {
-    padding: 8,
-    width: 40,
-  },
-  refreshButton: {
     padding: 8,
     width: 40,
   },
@@ -542,50 +459,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     padding: 20,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  loadingText: {
-    marginTop: 16,
-    fontSize: 16,
-    textAlign: 'center',
-  },
-  errorContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  errorText: {
-    marginTop: 16,
-    fontSize: 16,
-    textAlign: 'center',
-    marginBottom: 24,
-  },
-  retryButton: {
-    paddingHorizontal: 32,
-    paddingVertical: 12,
-    borderRadius: 8,
-    marginBottom: 12,
-  },
-  retryButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  githubButton: {
-    paddingHorizontal: 32,
-    paddingVertical: 12,
-    borderRadius: 8,
-    borderWidth: 2,
-  },
-  githubButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
   },
   githubLinkBox: {
     padding: 16,

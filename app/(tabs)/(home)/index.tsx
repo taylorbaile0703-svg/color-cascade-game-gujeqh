@@ -46,6 +46,22 @@ export default function HomeScreen() {
             <Text style={styles.playButtonText}>Start Playing</Text>
           </LinearGradient>
         </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.profileButtonWrapper} 
+          onPress={() => router.push('/(tabs)/profile')}
+          activeOpacity={0.85}
+        >
+          <View style={styles.profileButton}>
+            <IconSymbol
+              ios_icon_name="person.circle"
+              android_material_icon_name="account-circle"
+              size={20}
+              color={colors.text}
+            />
+            <Text style={styles.profileButtonText}>About & Privacy</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
@@ -86,6 +102,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     boxShadow: '0px 15px 40px rgba(168, 85, 247, 0.5)',
     elevation: 12,
+    marginBottom: 20,
   },
   playButton: {
     flexDirection: 'row',
@@ -102,5 +119,23 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#ffffff',
     letterSpacing: 0.5,
+  },
+  profileButtonWrapper: {
+    marginTop: 12,
+  },
+  profileButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    gap: 8,
+  },
+  profileButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: colors.text,
   },
 });

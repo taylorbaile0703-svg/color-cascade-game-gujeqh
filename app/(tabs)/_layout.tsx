@@ -3,7 +3,7 @@ import React from 'react';
 import { Stack } from 'expo-router';
 
 export default function TabLayout() {
-  // Simplified layout without tabs - just stack navigation
+  // Simple stack navigation without any tabs
   return (
     <Stack
       screenOptions={{
@@ -11,7 +11,8 @@ export default function TabLayout() {
         animation: 'none',
       }}
     >
-      <Stack.Screen name="(home)" />
+      <Stack.Screen name="(home)" options={{ headerShown: false }} />
+      <Stack.Screen name="profile" options={{ headerShown: false }} />
     </Stack>
   );
 }

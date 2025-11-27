@@ -336,7 +336,9 @@ export default function PrivacyPolicyScreen() {
         <TouchableOpacity
           onPress={handleBackPress}
           style={[styles.backButton, {
-            backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+            backgroundColor: theme.dark ? '#a855f7' : '#7e22ce',
+            borderWidth: 2,
+            borderColor: theme.dark ? '#c084fc' : '#a855f7',
           }]}
           activeOpacity={0.7}
         >
@@ -344,7 +346,7 @@ export default function PrivacyPolicyScreen() {
             ios_icon_name="chevron.left"
             android_material_icon_name="arrow-back"
             size={24}
-            color={theme.colors.primary}
+            color="#ffffff"
           />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Privacy Policy</Text>
@@ -446,6 +448,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
+    boxShadow: '0px 2px 8px rgba(168, 85, 247, 0.3)',
+    elevation: 4,
   },
   headerTitle: {
     fontSize: 17,

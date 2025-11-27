@@ -80,8 +80,7 @@ export default function RootLayout() {
         name="privacy-policy"
         options={{
           presentation: 'modal',
-          headerShown: true,
-          title: 'Privacy Policy',
+          headerShown: false,
         }}
       />
     </Stack>

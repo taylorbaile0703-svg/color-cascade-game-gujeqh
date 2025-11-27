@@ -1,12 +1,11 @@
 
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Platform, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSymbol } from "@/components/IconSymbol";
 import { GlassView } from "expo-glass-effect";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
-import * as WebBrowser from 'expo-web-browser';
 
 export default function ProfileScreen() {
   const theme = useTheme();
@@ -14,16 +13,6 @@ export default function ProfileScreen() {
 
   const openPrivacyPolicy = () => {
     router.push('/privacy-policy');
-  };
-
-  const openExternalLink = async () => {
-    try {
-      // Replace this URL with your actual website or support page
-      await WebBrowser.openBrowserAsync('https://natively.dev');
-    } catch (error) {
-      console.log('Error opening browser:', error);
-      Alert.alert('Error', 'Could not open the link');
-    }
   };
 
   return (
@@ -113,33 +102,6 @@ export default function ProfileScreen() {
               <IconSymbol 
                 ios_icon_name="chevron.right" 
                 android_material_icon_name="chevron-right" 
-                size={20} 
-                color={theme.dark ? '#98989D' : '#666'} 
-              />
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.linkButton}
-            onPress={openExternalLink}
-            activeOpacity={0.7}
-          >
-            <View style={styles.linkContent}>
-              <IconSymbol 
-                ios_icon_name="globe" 
-                android_material_icon_name="language" 
-                size={24} 
-                color={theme.colors.primary} 
-              />
-              <View style={styles.linkTextContainer}>
-                <Text style={[styles.linkTitle, { color: theme.colors.text }]}>Visit Our Website</Text>
-                <Text style={[styles.linkSubtitle, { color: theme.dark ? '#98989D' : '#666' }]}>
-                  Learn more about our apps
-                </Text>
-              </View>
-              <IconSymbol 
-                ios_icon_name="arrow.up.right" 
-                android_material_icon_name="open-in-new" 
                 size={20} 
                 color={theme.dark ? '#98989D' : '#666'} 
               />

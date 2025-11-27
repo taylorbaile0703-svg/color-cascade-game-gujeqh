@@ -1,11 +1,10 @@
 
 import React, { useState } from "react";
-import { View, StyleSheet, Text, ScrollView, TextInput, Platform } from "react-native";
+import { View, StyleSheet, Text, ScrollView, TextInput, Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
 import { IconSymbol } from "@/components/IconSymbol";
-import { TouchableOpacity } from "react-native";
 import * as WebBrowser from 'expo-web-browser';
 
 // Privacy policy content bundled with the app
@@ -148,6 +147,11 @@ export default function PrivacyPolicyScreen() {
   const theme = useTheme();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+
+  const handleBackPress = () => {
+    console.log('Back button pressed');
+    router.back();
+  };
 
   const openGitHubPrivacyPolicy = async () => {
     try {
@@ -325,17 +329,22 @@ export default function PrivacyPolicyScreen() {
       style={[styles.safeArea, { backgroundColor: theme.colors.background }]} 
       edges={['top']}
     >
-      <View style={styles.header}>
+      <View style={[styles.header, { 
+        backgroundColor: theme.colors.background,
+        borderBottomColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+      }]}>
         <TouchableOpacity
-          onPress={() => router.back()}
-          style={styles.backButton}
+          onPress={handleBackPress}
+          style={[styles.backButton, {
+            backgroundColor: theme.dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+          }]}
           activeOpacity={0.7}
         >
           <IconSymbol
             ios_icon_name="chevron.left"
             android_material_icon_name="arrow-back"
             size={24}
-            color={theme.colors.text}
+            color={theme.colors.primary}
           />
         </TouchableOpacity>
         <Text style={[styles.headerTitle, { color: theme.colors.text }]}>Privacy Policy</Text>
@@ -429,11 +438,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: 'rgba(0,0,0,0.1)',
   },
   backButton: {
     padding: 8,
     width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   headerTitle: {
     fontSize: 17,

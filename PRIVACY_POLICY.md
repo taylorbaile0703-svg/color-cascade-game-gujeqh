@@ -2,7 +2,7 @@
 
 Color Cascade Memory Game
 
-Last Updated: January 2025
+Last Updated: November 28, 2025
 
 TL;DR: Color Cascade is a simple memory game that stores your high score locally on your device. We don't collect, store, or share any personal information. Your data never leaves your device.
 
@@ -137,4 +137,4 @@ If you have any questions about this Privacy Policy or our privacy practices, pl
 
 ### Summary
 
-**Color Cascade respects your privacy.** 
+**Color Cascade respects your privacy.** We don't collect, store, or share any personal information. Your high score stays on your device. No ads, no tracking, no data collection. Just a fun memory game.

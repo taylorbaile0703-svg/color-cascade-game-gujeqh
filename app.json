@@ -60,8 +60,6 @@
             "targetSdkVersion": 35,
             "buildToolsVersion": "35.0.0",
             "minSdkVersion": 24,
-            "enableProguardInReleaseBuilds": true,
-            "enableShrinkResourcesInReleaseBuilds": true,
             "usesCleartextTraffic": false,
             "extraMavenRepos": [
               "https://maven.google.com"

@@ -35,7 +35,8 @@
         "android.permission.CAMERA",
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION"
-      ]
+      ],
+      "kotlinVersion": "2.1.0"
     },
     "web": {
       "favicon": "./assets/images/final_quest_240x240.png",

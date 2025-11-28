@@ -3,7 +3,7 @@
   "expo": {
     "name": "Color Cascade",
     "slug": "Color Cascade",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
     "userInterfaceStyle": "automatic",
@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.colorcascade.game",
-      "buildNumber": "6",
+      "buildNumber": "7",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -28,7 +28,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.lilies.colormemorycascade",
-      "versionCode": 7,
+      "versionCode": 8,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
@@ -51,15 +51,7 @@
       "typedRoutes": true
     },
     "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "your-eas-project-id-here"
-      }
-    },
-    "updates": {
-      "url": "https://u.expo.dev/your-eas-project-id-here"
+      "policy": "sdkVersion"
     }
   },
   "scheme": "Color Cascade"

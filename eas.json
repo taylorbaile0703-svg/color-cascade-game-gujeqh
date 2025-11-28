@@ -1,3 +1,4 @@
+
 {
   "cli": {
     "version": ">= 16.0.0"
@@ -19,6 +20,7 @@
     },
     "production": {
       "autoIncrement": true,
+      "distribution": "store",
       "channel": "production",
       "android": {
         "buildType": "app-bundle"

@@ -35,7 +35,6 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.lilies.colormemorycascade",
-      "versionCode": 10,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
@@ -84,6 +83,5 @@
         "projectId": "903df947-6d54-4257-9aaa-a139329ad4be"
       }
     }
-  },
-  "scheme": "Color Cascade"
+  }
 }

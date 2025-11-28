@@ -1,7 +1,7 @@
-
 {
   "cli": {
-    "version": ">= 16.0.0"
+    "version": ">= 0.47.0",
+    "appVersionSource": "remote"
   },
   "build": {
     "development": {
@@ -30,7 +30,6 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "./service-account-key.json",
         "track": "internal"
       }
     }

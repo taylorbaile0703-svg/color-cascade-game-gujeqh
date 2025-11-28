@@ -36,8 +36,8 @@ export default function ListItem({ listId }: { listId: string }) {
           console.log("delete");
         }}
       >
-        <Reanimated.View style={[styleAnimation, styles.rightAction]}>
-          <IconSymbol name="trash.fill" size={24} color="white" />
+          <Reanimated.View style={[styleAnimation, styles.rightAction]}>
+          <IconSymbol ios_icon_name="trash.fill" android_material_icon_name="delete" size={24} color="white" />
         </Reanimated.View>
       </Pressable>
     );

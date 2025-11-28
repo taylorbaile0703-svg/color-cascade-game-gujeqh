@@ -121,7 +121,7 @@ export default function ProfileScreen() {
 
         <View style={styles.footer}>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
-            Version 1.0.5
+            Version 1.0.6
           </Text>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
             Made with ❤️ using React Native & Expo

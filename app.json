@@ -52,6 +52,14 @@
     },
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "your-eas-project-id-here"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/your-eas-project-id-here"
     }
   },
   "scheme": "Color Cascade"

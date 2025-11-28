@@ -12,6 +12,7 @@ export default function ProfileScreen() {
   const router = useRouter();
 
   const openPrivacyPolicy = () => {
+    console.log('Opening privacy policy screen');
     router.push('/privacy-policy');
   };
 
@@ -105,7 +106,7 @@ export default function ProfileScreen() {
 
         <View style={styles.footer}>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
-            Version 1.0.4
+            Version 1.0.5
           </Text>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
             Made with ❤️ using React Native & Expo

@@ -1,8 +1,7 @@
-
 {
   "expo": {
     "name": "Color Cascade",
-    "slug": "color-cascade",
+    "slug": "Color Cascade",
     "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
@@ -14,6 +13,8 @@
       "backgroundColor": "#7C3AED"
     },
     "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/903df947-6d54-4257-9aaa-a139329ad4be"
     },

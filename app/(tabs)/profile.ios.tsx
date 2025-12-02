@@ -1,15 +1,40 @@
 
-import React from "react";
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, ScrollView, Platform, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconSymbol } from "@/components/IconSymbol";
 import { GlassView } from "expo-glass-effect";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import Constants from 'expo-constants';
+import * as Updates from 'expo-updates';
+import { UpdateChecker } from "@/components/UpdateChecker";
 
 export default function ProfileScreen() {
   const theme = useTheme();
   const router = useRouter();
+  const [appVersion, setAppVersion] = useState('');
+
+  useEffect(() => {
+    // Get the app version from Constants
+    const version = Constants.expoConfig?.version || '1.0.0';
+    const buildNumber = Platform.OS === 'ios' 
+      ? Constants.expoConfig?.ios?.buildNumber 
+      : Constants.expoConfig?.android?.versionCode;
+    
+    let versionString = `Version ${version}`;
+    if (buildNumber) {
+      versionString += ` (${buildNumber})`;
+    }
+    
+    // Add update info if available
+    if (!__DEV__ && Updates.updateId) {
+      versionString += `\nUpdate: ${Updates.updateId.substring(0, 8)}...`;
+    }
+    
+    setAppVersion(versionString);
+    console.log('App version info:', versionString);
+  }, []);
 
   const openPrivacyPolicy = () => {
     console.log('Opening privacy policy screen');
@@ -104,9 +129,17 @@ export default function ProfileScreen() {
           </View>
         </GlassView>
 
+        <GlassView style={styles.section} glassEffectStyle="regular">
+          <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>App Updates</Text>
+          <Text style={[styles.infoText, { color: theme.dark ? '#98989D' : '#666', marginBottom: 16 }]}>
+            Check for the latest version of the app
+          </Text>
+          <UpdateChecker />
+        </GlassView>
+
         <View style={styles.footer}>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
-            Version 1.0.7
+            {appVersion}
           </Text>
           <Text style={[styles.footerText, { color: theme.dark ? '#98989D' : '#666' }]}>
             Made with ❤️ using React Native & Expo
@@ -208,5 +241,6 @@ const styles = StyleSheet.create({
   },
   footerText: {
     fontSize: 13,
+    textAlign: 'center',
   },
 });

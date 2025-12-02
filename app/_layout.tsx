@@ -3,49 +3,47 @@ import { Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Updates from 'expo-updates';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, AppState } from 'react-native';
 import { colors } from '@/styles/commonStyles';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [isReady, setIsReady] = useState(false);
-  const [updateError, setUpdateError] = useState<string | null>(null);
 
   useEffect(() => {
     async function prepare() {
       try {
-        // Only check for updates in production builds
+        // Check for updates on app start (production only)
         if (!__DEV__ && Updates.isEnabled) {
-          console.log('Checking for updates...');
-          const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error('Update check timeout')), 5000)
-          );
-
+          console.log('Checking for updates on app start...');
+          console.log('Current update ID:', Updates.updateId);
+          console.log('Runtime version:', Updates.runtimeVersion);
+          
           try {
-            const update = await Promise.race([
-              Updates.checkForUpdateAsync(),
-              timeoutPromise,
-            ]);
+            const update = await Updates.checkForUpdateAsync();
+            console.log('Update check result:', update);
 
-            if (update && typeof update === 'object' && 'isAvailable' in update && update.isAvailable) {
-              console.log('Update available, fetching...');
-              await Updates.fetchUpdateAsync();
-              console.log('Update fetched, reloading...');
+            if (update.isAvailable) {
+              console.log('Update available! Fetching...');
+              const fetchResult = await Updates.fetchUpdateAsync();
+              console.log('Update fetched:', fetchResult);
+              
+              // Reload immediately to apply the update
+              console.log('Reloading app to apply update...');
               await Updates.reloadAsync();
             } else {
-              console.log('No updates available');
+              console.log('App is up to date');
             }
           } catch (updateError) {
-            console.log('Update check failed or timed out:', updateError);
+            console.error('Update check/fetch failed:', updateError);
             // Continue anyway - don't block the app
           }
         } else {
-          console.log('Skipping update check (dev mode or updates disabled)');
+          console.log('Updates disabled or in dev mode');
         }
       } catch (error) {
         console.error('Error during app preparation:', error);
-        setUpdateError('Failed to check for updates');
       } finally {
         setIsReady(true);
         await SplashScreen.hideAsync();
@@ -53,6 +51,32 @@ export default function RootLayout() {
     }
 
     prepare();
+  }, []);
+
+  // Also check for updates when app comes to foreground
+  useEffect(() => {
+    if (!__DEV__ && Updates.isEnabled) {
+      const subscription = AppState.addEventListener('change', async (nextAppState) => {
+        if (nextAppState === 'active') {
+          console.log('App became active, checking for updates...');
+          try {
+            const update = await Updates.checkForUpdateAsync();
+            if (update.isAvailable) {
+              console.log('Update available in background check');
+              await Updates.fetchUpdateAsync();
+              // Don't reload immediately, just fetch for next restart
+              console.log('Update fetched and ready for next app restart');
+            }
+          } catch (error) {
+            console.error('Background update check failed:', error);
+          }
+        }
+      });
+
+      return () => {
+        subscription.remove();
+      };
+    }
   }, []);
 
   if (!isReady) {

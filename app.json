@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
+    "newArchEnabled": false,
     "splash": {
       "image": "./assets/images/final_quest_240x240.png",
       "resizeMode": "contain",
@@ -36,7 +36,6 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.lilies.colormemorycascade",
-      "versionCode": 10,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
@@ -62,8 +61,6 @@
             "targetSdkVersion": 35,
             "buildToolsVersion": "35.0.0",
             "minSdkVersion": 24,
-            "enableProguardInReleaseBuilds": true,
-            "enableShrinkResourcesInReleaseBuilds": true,
             "usesCleartextTraffic": false,
             "extraMavenRepos": [
               "https://maven.google.com"

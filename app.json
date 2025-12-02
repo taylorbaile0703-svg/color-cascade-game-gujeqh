@@ -1,9 +1,9 @@
 
 {
   "expo": {
-    "name": "Color Cascade",
-    "slug": "Color Cascade",
-    "version": "1.0.8",
+    "name": "color-cascade-game-gujeqh",
+    "slug": "color-cascade-game-gujeqh",
+    "version": "1.0.11",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
     "userInterfaceStyle": "automatic",
@@ -25,7 +25,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.colorcascade.game",
-      "buildNumber": "10",
+      "buildNumber": "11",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -37,7 +37,7 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.lilies.colormemorycascade",
-      "versionCode": 10,
+      "versionCode": 11,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
@@ -58,15 +58,12 @@
         "expo-build-properties",
         {
           "android": {
-            "kotlinVersion": "2.1.0",
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 35,
-            "buildToolsVersion": "35.0.0",
+            "kotlinVersion": "1.9.24",
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0",
             "minSdkVersion": 24,
-            "usesCleartextTraffic": false,
-            "extraMavenRepos": [
-              "https://maven.google.com"
-            ]
+            "usesCleartextTraffic": false
           },
           "ios": {
             "useFrameworks": "static"

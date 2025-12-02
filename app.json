@@ -3,7 +3,7 @@
   "expo": {
     "name": "color-cascade-game-gujeqh",
     "slug": "color-cascade-game-gujeqh",
-    "version": "1.0.11",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/final_quest_240x240.png",
     "userInterfaceStyle": "automatic",
@@ -36,8 +36,8 @@
         "backgroundColor": "#7C3AED"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.lilies.colormemorycascade",
-      "versionCode": 11,
+      "package": "Com.lilies.colormemorycascade",
+      "versionCode": 2,
       "permissions": [],
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
@@ -58,7 +58,7 @@
         "expo-build-properties",
         {
           "android": {
-            "kotlinVersion": "1.9.24",
+            "kotlinVersion": "2.0.0",
             "compileSdkVersion": 34,
             "targetSdkVersion": 34,
             "buildToolsVersion": "34.0.0",

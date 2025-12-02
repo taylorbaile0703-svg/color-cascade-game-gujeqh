@@ -1,3 +1,4 @@
+
 {
   "cli": {
     "version": ">= 0.47.0",
@@ -31,7 +32,8 @@
     "production": {
       "android": {
         "track": "internal"
-      }
+      },
+      "ios": {}
     }
   }
 }

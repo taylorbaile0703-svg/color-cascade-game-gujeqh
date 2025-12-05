@@ -1,3 +1,4 @@
+
 {
   "cli": {
     "version": ">= 0.47.0",
@@ -8,14 +9,19 @@
       "developmentClient": true,
       "distribution": "internal",
       "autoIncrement": true,
-      "channel": "development"
+      "channel": "development",
+      "android": {
+        "gradleCommand": ":app:assembleDebug",
+        "withoutCredentials": true
+      }
     },
     "preview": {
       "distribution": "internal",
       "autoIncrement": true,
       "channel": "preview",
       "android": {
-        "buildType": "apk"
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
       }
     },
     "production": {
@@ -23,7 +29,8 @@
       "distribution": "store",
       "channel": "production",
       "android": {
-        "buildType": "app-bundle"
+        "buildType": "app-bundle",
+        "gradleCommand": ":app:bundleRelease"
       },
       "ios": {
         "buildConfiguration": "Release"

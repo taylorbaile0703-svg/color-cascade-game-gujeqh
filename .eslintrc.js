@@ -18,6 +18,16 @@ module.exports = {
     }
   },
   ignorePatterns: ['/dist/*', '/public/*', '/babel-plugins/*'],
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.ios.ts', '.ios.tsx', '.android.ts', '.android.tsx'],
+        moduleDirectory: ['node_modules', '.'],
+        paths: ['.'],
+      },
+    },
+    'import/ignore': ['@/'],
+  },
   env: {
     browser: true,
   },
@@ -31,7 +41,8 @@ module.exports = {
     "@typescript-eslint/no-wrapper-object-types": "off",
     "@typescript-eslint/ban-tslint-comment": "off",
     "react/no-unescaped-entities": "off",
-    "import/no-unresolved": "error",
+    "import/no-unresolved": ["error", { "ignore": ["^@/"] }],
+    "import/namespace": "off",
     "prefer-const": "off",
     "react/prop-types": 1,
     "no-case-declarations": "off",

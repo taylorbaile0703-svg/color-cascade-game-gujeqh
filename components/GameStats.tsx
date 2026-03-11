@@ -17,51 +17,28 @@ export const GameStats: React.FC<GameStatsProps> = ({
   highScore,
   sequenceLength,
 }) => {
+  const stats = [
+    { icon: '🎯', label: 'Level', value: level },
+    { icon: '⭐', label: 'Score', value: score },
+    { icon: '🏆', label: 'Best', value: highScore },
+    { icon: '📏', label: 'Length', value: sequenceLength },
+  ];
+
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[colors.card, colors.cardLight]}
-        style={styles.statCard}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <Text style={styles.statIcon}>🎯</Text>
-        <Text style={styles.statLabel}>Level</Text>
-        <Text style={styles.statValue}>{level}</Text>
-      </LinearGradient>
-      
-      <LinearGradient
-        colors={[colors.card, colors.cardLight]}
-        style={styles.statCard}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <Text style={styles.statIcon}>⭐</Text>
-        <Text style={styles.statLabel}>Score</Text>
-        <Text style={styles.statValue}>{score}</Text>
-      </LinearGradient>
-      
-      <LinearGradient
-        colors={[colors.card, colors.cardLight]}
-        style={styles.statCard}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <Text style={styles.statIcon}>🏆</Text>
-        <Text style={styles.statLabel}>Best</Text>
-        <Text style={styles.statValue}>{highScore}</Text>
-      </LinearGradient>
-      
-      <LinearGradient
-        colors={[colors.card, colors.cardLight]}
-        style={styles.statCard}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-      >
-        <Text style={styles.statIcon}>📏</Text>
-        <Text style={styles.statLabel}>Length</Text>
-        <Text style={styles.statValue}>{sequenceLength}</Text>
-      </LinearGradient>
+      {stats.map((stat) => (
+        <LinearGradient
+          key={stat.label}
+          colors={[colors.card, colors.cardLight]}
+          style={styles.statCard}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+        >
+          <Text style={styles.statIcon}>{stat.icon}</Text>
+          <Text style={styles.statLabel}>{stat.label}</Text>
+          <Text style={styles.statValue}>{stat.value}</Text>
+        </LinearGradient>
+      ))}
     </View>
   );
 };

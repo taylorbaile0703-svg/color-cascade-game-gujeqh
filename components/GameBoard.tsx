@@ -1,10 +1,9 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
 import { ColorButton } from './ColorButton';
 import { GameColor } from '@/types/game';
 import { colors } from '@/styles/commonStyles';
-import { LinearGradient } from 'expo-linear-gradient';
 
 interface GameBoardProps {
   availableColors: GameColor[];
@@ -29,14 +28,27 @@ export const GameBoard: React.FC<GameBoardProps> = ({
   gamePhase,
 }) => {
   const [activeColorIndex, setActiveColorIndex] = useState<number>(-1);
-  const fadeAnim = new Animated.Value(1);
-  const scaleAnim = new Animated.Value(1);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const showSequenceAnimation = useCallback(async () => {
+    const baseDelay = Math.max(800 - (sequence.length * 10), 400);
+
+    for (let i = 0; i < sequence.length; i++) {
+      await new Promise(resolve => setTimeout(resolve, baseDelay));
+      const colorIndex = availableColors.findIndex(c => c.id === sequence[i]);
+      setActiveColorIndex(colorIndex);
+
+      await new Promise(resolve => setTimeout(resolve, baseDelay * 0.6));
+      setActiveColorIndex(-1);
+    }
+  }, [availableColors, sequence]);
 
   useEffect(() => {
     if (isShowingSequence && sequence.length > 0) {
       showSequenceAnimation();
     }
-  }, [isShowingSequence, sequence]);
+  }, [isShowingSequence, sequence.length, showSequenceAnimation]);
 
   useEffect(() => {
     if (gamePhase === 'correct') {
@@ -67,20 +79,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({
         ]),
       ]).start();
     }
-  }, [gamePhase]);
-
-  const showSequenceAnimation = async () => {
-    const baseDelay = Math.max(800 - (sequence.length * 10), 400);
-    
-    for (let i = 0; i < sequence.length; i++) {
-      await new Promise(resolve => setTimeout(resolve, baseDelay));
-      const colorIndex = availableColors.findIndex(c => c.id === sequence[i]);
-      setActiveColorIndex(colorIndex);
-      
-      await new Promise(resolve => setTimeout(resolve, baseDelay * 0.6));
-      setActiveColorIndex(-1);
-    }
-  };
+  }, [fadeAnim, gamePhase, scaleAnim]);
 
   const getStatusMessage = () => {
     switch (gamePhase) {

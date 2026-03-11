@@ -31,12 +31,7 @@ export const useGameLogic = () => {
 
   const [availableColors, setAvailableColors] = useState<GameColor[]>([]);
 
-  // Load high score on mount
-  useEffect(() => {
-    loadHighScore();
-  }, []);
-
-  const loadHighScore = async () => {
+  const loadHighScore = useCallback(async () => {
     try {
       const savedHighScore = await AsyncStorage.getItem(HIGH_SCORE_KEY);
       if (savedHighScore !== null) {
@@ -45,15 +40,20 @@ export const useGameLogic = () => {
     } catch (error) {
       console.log('Error loading high score:', error);
     }
-  };
+  }, []);
 
-  const saveHighScore = async (score: number) => {
+  const saveHighScore = useCallback(async (score: number) => {
     try {
       await AsyncStorage.setItem(HIGH_SCORE_KEY, score.toString());
     } catch (error) {
       console.log('Error saving high score:', error);
     }
-  };
+  }, []);
+
+  // Load high score on mount
+  useEffect(() => {
+    loadHighScore();
+  }, [loadHighScore]);
 
   // Determine available colors based on level
   const getAvailableColors = useCallback((level: number): GameColor[] => {
@@ -95,14 +95,7 @@ export const useGameLogic = () => {
     Feedback.medium();
   }, [generateSequence, getAvailableColors, gameState.highScore]);
 
-  // Show sequence to player
-  useEffect(() => {
-    if (gameState.gamePhase === 'showing') {
-      showSequence();
-    }
-  }, [gameState.gamePhase]);
-
-  const showSequence = async () => {
+  const showSequence = useCallback(async () => {
     const baseDelay = Math.max(800 - (gameState.level * 30), 400);
     
     for (let i = 0; i < gameState.sequence.length; i++) {
@@ -118,7 +111,14 @@ export const useGameLogic = () => {
       isPlayerTurn: true,
       gamePhase: 'playing',
     }));
-  };
+  }, [gameState.level, gameState.sequence]);
+
+  // Show sequence to player
+  useEffect(() => {
+    if (gameState.gamePhase === 'showing') {
+      showSequence();
+    }
+  }, [gameState.gamePhase, showSequence]);
 
   // Handle player color selection
   const handleColorPress = useCallback((colorId: string) => {

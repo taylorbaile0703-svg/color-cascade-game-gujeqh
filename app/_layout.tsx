@@ -91,15 +91,6 @@ export default function RootLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="formsheet" options={{ presentation: 'formSheet' }} />
-      <Stack.Screen
-        name="transparent-modal"
-        options={{
-          presentation: 'transparentModal',
-          animation: 'fade',
-        }}
-      />
       <Stack.Screen
         name="privacy-policy"
         options={{

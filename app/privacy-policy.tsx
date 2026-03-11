@@ -163,7 +163,7 @@ export default function PrivacyPolicyScreen() {
 
   const parseMarkdown = (markdown: string) => {
     const lines = markdown.split('\n');
-    const elements: JSX.Element[] = [];
+    const elements: React.JSX.Element[] = [];
     let key = 0;
 
     for (let i = 0; i < lines.length; i++) {
@@ -223,7 +223,7 @@ export default function PrivacyPolicyScreen() {
       // Bold text (**text**)
       if (line.includes('**')) {
         const parts = line.split('**');
-        const textElements: JSX.Element[] = [];
+        const textElements: React.JSX.Element[] = [];
         parts.forEach((part, index) => {
           if (index % 2 === 1) {
             textElements.push(
